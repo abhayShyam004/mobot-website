@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "sync": "node scripts/sync-html.cjs",
-    "build": "node scripts/sync-html.cjs && tsc -b && vite build",
+    "sync": "node scripts/adapt-mobot.cjs",
+    "build": "node scripts/adapt-mobot.cjs && tsc -b && vite build",
     "lint": "oxlint",
     "preview": "vite preview"
   },

@@ -1,4 +1,4 @@
-// Use Cases Controller & Phone Mockup Synchronization
+// Use Cases Controller & Phone Mockup Synchronization - MOBOT Edition
 
 import type { UseCaseData } from '../types';
 
@@ -9,69 +9,69 @@ function escapeHtml(text: string): string {
 }
 
 const USE_CASES: Record<string, UseCaseData> = {
-  'sales outbound': {
-    id: 'sales-outbound',
-    title: 'Sales Outbound',
-    category: 'Sales',
-    prompt: 'Overnight pipeline generation and outbound.\n\nPick eligible prospects from this Google Sheet, research them on the web, grab context from Salesforce, and draft personalized outreach.',
-    reply: 'Salesforce connected. 18 qualified prospects queued for review.',
-    routine: 'Salesforce Pipeline Sync'
+  'yuki': {
+    id: 'yuki',
+    title: 'Yuki',
+    category: 'Companion & Navigation',
+    prompt: 'take me yo the nearest metro station',
+    reply: 'I opened your maps app with a search for the nearest metro station. Depending on your location permissions, it may ask you to enable location first.',
+    routine: 'Android Intent: Google Maps'
   },
-  'talent scout': {
-    id: 'talent-scout',
-    title: 'Talent Scout',
-    category: 'Recruiting',
-    prompt: 'Source top AI research scientists with recent NeurIPS publications and draft personal outreach.',
-    reply: 'Screened 42 candidates. 5 strong matches drafted in your voice.',
-    routine: 'Candidate Sourcing'
+  'eval bot': {
+    id: 'eval-bot',
+    title: 'Eval Bot',
+    category: 'Privacy & Verification',
+    prompt: 'Do you see my Google Maps history, bookmarks, or personal saved places?',
+    reply: 'No. I don\'t see your Google Maps history, bookmarks, or saved places—just the single search intent triggered for your destination.',
+    routine: 'Privacy Sandbox Guard'
   },
-  'paid media': {
-    id: 'paid-media',
-    title: 'Paid Media',
-    category: 'Marketing',
-    prompt: 'Audit Google & Meta ad campaigns for ROAS under 2.5x and reallocate budget.',
-    reply: 'Paused 3 underperforming ad sets and reallocated $1,400 to top-performing creatives.',
-    routine: 'Ad Spend Optimization'
+  'pixel': {
+    id: 'pixel',
+    title: 'Pixel',
+    category: 'Document & OCR Vision',
+    prompt: 'Extract invoice total, invoice date, and itemized breakdown from the receipt photo.',
+    reply: 'Receipt parsed via on-device vision: Total $142.50 across 4 line items. Saved to your local SQLite database.',
+    routine: 'On-Device OCR Engine'
   },
-  'expense manager': {
-    id: 'expense-manager',
-    title: 'Expense Manager',
-    category: 'Finance',
-    prompt: 'Reconcile last month corporate card transactions with submitted receipts.',
-    reply: '32 receipts matched automatically. 0 policy violations found.',
-    routine: 'Expense Reconciliation'
+  'sage': {
+    id: 'sage',
+    title: 'Sage',
+    category: 'Reasoning & Memory',
+    prompt: 'Compare local SQLite performance vs SharedPreferences for agent memory persistence.',
+    reply: 'SQLite provides ACID transactions and sub-millisecond indexed queries for vector embeddings, making it superior for multi-agent state persistence.',
+    routine: 'SQLite Vector Storage'
   },
-  'product performance': {
-    id: 'product-performance',
-    title: 'Product Performance',
-    category: 'Engineering',
-    prompt: 'Analyze API latency degradation during yesterday peak traffic surge.',
-    reply: 'Identified bottleneck in database connection pool. PR created with fix.',
-    routine: 'Telemetry Audit'
+  'scout': {
+    id: 'scout',
+    title: 'Scout',
+    category: 'Background World Watches',
+    prompt: 'Watch flight AA1024 status and notify me if gate changes or delays occur.',
+    reply: 'Watch active: monitoring flight status every 15 minutes. Gate 42 confirmed on last check.',
+    routine: '24/7 World Watch'
   },
-  'bug reproduction': {
-    id: 'bug-reproduction',
-    title: 'Bug Reproduction',
-    category: 'Engineering',
-    prompt: 'Reproduce customer report #4021 regarding checkout failure on Safari.',
-    reply: 'Reproduced in headless Safari: WebKit cookie storage edge case detected.',
-    routine: 'E2E Test Runner'
+  'taffy': {
+    id: 'taffy',
+    title: 'Taffy',
+    category: 'Android Hands & Automation',
+    prompt: 'Launch camera document mode and save the high-resolution crop to workspace.',
+    reply: 'Document scanner intent executed. Scanned page cropped and saved to /sdcard/MOBOT/docs/doc_01.png.',
+    routine: 'Device Intent Dispatcher'
   },
-  'account health': {
-    id: 'account-health',
-    title: 'Account Health',
-    category: 'Customer Success',
-    prompt: 'Review customer sentiment and feature requests across top 20 enterprise accounts.',
-    reply: 'Summarized feedback from Zendesk & Slack. Health score is 94/100.',
-    routine: 'CSAT Monitoring'
+  'plum': {
+    id: 'plum',
+    title: 'Plum',
+    category: 'Voice Dictation & Audio',
+    prompt: 'Transcribe audio note from the team standup and summarize the 3 action items.',
+    reply: 'Voice transcribed with on-device Whisper: 3 action items extracted and assigned to Yuki and Eval Bot.',
+    routine: 'On-Device Whisper STT'
   },
-  'chief of staff': {
-    id: 'chief-of-staff',
-    title: 'Chief of Staff',
-    category: 'Operations',
-    prompt: 'Prepare executive briefing packet for Friday board meeting.',
-    reply: 'Deck compiled with Q3 metrics, revenue projections, and key hiring milestones.',
-    routine: 'Executive Briefing'
+  'vega': {
+    id: 'vega',
+    title: 'Vega',
+    category: 'Scheduled Routines',
+    prompt: 'Every morning at 8:00 AM, compile weather forecast, calendar events, and top news.',
+    reply: 'Scheduled morning routine active. AlarmManager configured for 08:00 AM daily with wake lock.',
+    routine: 'AlarmManager Service'
   }
 };
 
@@ -80,9 +80,7 @@ export function initUseCases() {
   if (!uc) return;
 
   const pillButtons = Array.from(uc.querySelectorAll<HTMLButtonElement>('button[data-pill-item="true"]'));
-  const phoneScreen = uc.querySelector('.mobile-phone-screen');
-  const phoneHeader = phoneScreen?.querySelector('header');
-  const phoneTranscript = phoneScreen?.querySelector('.baby-grok-bot-transcript');
+  const phoneTranscript = uc.querySelector('.baby-mobot-transcript, .baby-grok-bot-transcript') as HTMLElement | null;
 
   pillButtons.forEach((btn, index) => {
     btn.addEventListener('click', () => {
@@ -105,32 +103,32 @@ export function initUseCases() {
       const data = USE_CASES[matched];
 
       // Update phone screen title
-      if (phoneHeader) {
-        const titleSpan = phoneHeader.querySelector('span.block.truncate');
-        if (titleSpan) titleSpan.textContent = data.title;
+      const titleSpan = uc.querySelector('.baby-mobot-agent-title-pill span.truncate, .baby-grok-bot-agent-title-pill span.truncate') as HTMLElement | null;
+      if (titleSpan) {
+        titleSpan.textContent = data.title;
       }
 
       // Update phone transcript
       if (phoneTranscript) {
         phoneTranscript.innerHTML = `
           <div class="flex flex-col gap-1">
-            <div class="baby-grok-bot-entry-enter mt-2 first:mt-0">
+            <div class="baby-mobot-entry-enter baby-grok-bot-entry-enter mt-2 first:mt-0">
               <div class="flex justify-end">
                 <div class="relative max-w-[min(420px,85%)]">
-                  <div class="px-3 py-2 text-[14px] leading-5 tracking-[-0.15px] whitespace-pre-wrap" style="background:var(--grok-bot-bubble-user);color:var(--grok-bot-bubble-user-ink);border-radius:16px">${escapeHtml(data.prompt)}</div>
+                  <div class="px-3 py-2 text-[14px] leading-5 tracking-[-0.15px] whitespace-pre-wrap" style="background:var(--mobot-bubble-user,var(--grok-bot-bubble-user));color:var(--mobot-bubble-user-ink,var(--grok-bot-bubble-user-ink));border-radius:16px">${escapeHtml(data.prompt)}</div>
                 </div>
               </div>
             </div>
-            <div class="baby-grok-bot-entry-enter mt-3 first:mt-0">
+            <div class="baby-mobot-entry-enter baby-grok-bot-entry-enter mt-3 first:mt-0">
               <div class="flex max-w-[min(560px,92%)] flex-col items-start">
                 <div class="relative">
-                  <div class="baby-grok-bot-md px-3 py-2 text-[14px] leading-5 tracking-[-0.15px] whitespace-pre-wrap" style="background:var(--grok-bot-bubble-agent);color:var(--cursor-text-primary);border-radius:16px">
+                  <div class="baby-mobot-md baby-grok-bot-md px-3 py-2 text-[14px] leading-5 tracking-[-0.15px] whitespace-pre-wrap" style="background:var(--mobot-bubble-agent,var(--grok-bot-bubble-agent));color:var(--cursor-text-primary);border-radius:16px">
                     <span>${escapeHtml(data.reply)}</span>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="baby-grok-bot-entry-enter mt-3 first:mt-0">
+            <div class="baby-mobot-entry-enter baby-grok-bot-entry-enter mt-3 first:mt-0">
               <div class="w-full rounded-2xl border border-white/10 bg-white/5 p-3 text-xs flex items-center justify-between">
                 <div class="flex items-center gap-2">
                   <span class="inline-block size-2 rounded-full bg-cyan-400"></span>
@@ -148,10 +146,10 @@ export function initUseCases() {
     btn.addEventListener('keydown', (e: KeyboardEvent) => {
       if (e.key === 'ArrowRight') {
         e.preventDefault();
-        (pillButtons[(index + 1) % pillButtons.length] as HTMLElement)?.focus();
+        pillButtons[(index + 1) % pillButtons.length]?.focus();
       } else if (e.key === 'ArrowLeft') {
         e.preventDefault();
-        (pillButtons[(index - 1 + pillButtons.length) % pillButtons.length] as HTMLElement)?.focus();
+        pillButtons[(index - 1 + pillButtons.length) % pillButtons.length]?.focus();
       }
     });
   });
