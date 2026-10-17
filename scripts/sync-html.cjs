@@ -30,6 +30,7 @@ html = html.replace(/<style[^>]*>\s*:host\{--accent-color:[\s\S]*?<\/style>/gi, 
 html = html.replace(/\bsf-hidden\b/g, '');
 html = html.replace(/class=\s*>/g, '>');
 html = html.replace(/value\s*>/g, '>');
+html = html.replace('bg-background text-primary font-sans antialiased', 'bg-background text-primary font-sans antialiased overflow-x-clip');
 
 // 4. Ensure composer input in hero demo is interactive
 html = html.replace('contenteditable=false data-empty', 'contenteditable=true data-empty tabindex=0');
@@ -68,13 +69,27 @@ const linuxDropdownMarkup = `<div id="_r_0_" role="region" aria-label="Linux pac
 </div>`;
 
 if (html.includes(linuxDropdownTrigger) && !html.includes('id=\"_r_0_\"')) {
-  // Insert after the parent div of the linux trigger
   const triggerIdx = html.indexOf(linuxDropdownTrigger);
   const closingDivIdx = html.indexOf('</div>', triggerIdx);
   if (closingDivIdx !== -1) {
     html = html.slice(0, closingDivIdx + 6) + linuxDropdownMarkup + html.slice(closingDivIdx + 6);
   }
 }
+
+// 7. Ensure mascot eyes in #get-started are wrapped in a group for interactive cursor tracking
+const targetEyePathStart = '<path d="M955.74 747.83';
+const eyePathIdx = html.indexOf(targetEyePathStart);
+if (eyePathIdx !== -1 && !html.includes('id="mascot-eyes"')) {
+  const eyeClosingIdx = html.indexOf('</path>', eyePathIdx);
+  if (eyeClosingIdx !== -1) {
+    const originalPath = html.slice(eyePathIdx, eyeClosingIdx + 7);
+    const wrappedPath = `<g id="mascot-eyes" class="mascot-eyes" style="will-change: transform; transform: translate(0px, 0px); transition: transform 0.08s ease-out;">${originalPath}</g>`;
+    html = html.slice(0, eyePathIdx) + wrappedPath + html.slice(eyeClosingIdx + 7);
+  }
+}
+
+// 8. Ensure sidebar resize separator has keyboard accessibility attributes
+html = html.replace('role=separator></div></div><div class=baby-grok-bot-chat', 'role=separator tabindex="0" aria-valuenow="280" aria-valuemin="220" aria-valuemax="400" aria-label="Resize sidebar"></div></div><div class=baby-grok-bot-chat');
 
 // 7. Ensure module script is connected before body closing tag
 const targetHtml = path.resolve(__dirname, '../index.html');
