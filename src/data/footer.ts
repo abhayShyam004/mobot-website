@@ -49,16 +49,6 @@ export const FOOTER_DATA: FooterCategory[] = [
     ]
   },
   {
-    title: "Trust",
-    links: [
-      { label: "Safety", href: "#" },
-      { label: "Security", href: "#" },
-      { label: "Privacy Portal", href: "#" },
-      { label: "Subprocessors", href: "#" },
-      { label: "Help Center", href: "#" }
-    ]
-  },
-  {
     title: "Legal",
     links: [
       { label: "Terms", href: "#" },
@@ -78,6 +68,35 @@ export const FOOTER_DATA: FooterCategory[] = [
       { label: "iOS", href: "#" },
       { label: "Android", href: "#" },
       { label: "Grok on X", href: "#" }
+    ]
+  },
+  {
+    title: "Grok Bot",
+    links: [
+      { label: "Overview", href: "#" },
+      { label: "Marketplace", href: "#" },
+      { label: "Guides", href: "#guides" },
+      { label: "Use Cases", href: "#use-cases" },
+      { label: "Changelog", href: "#" }
+    ]
+  },
+  {
+    title: "Enterprise",
+    links: [
+      { label: "Contact Sales", href: "https://cursor.com/contact-sales?product=grok-bot" },
+      { label: "FAQs", href: "#faqs" },
+      { label: "BAA", href: "#" },
+      { label: "DPA", href: "#" }
+    ]
+  },
+  {
+    title: "Trust",
+    links: [
+      { label: "Safety", href: "#" },
+      { label: "Security", href: "#" },
+      { label: "Privacy Portal", href: "#" },
+      { label: "Subprocessors", href: "#" },
+      { label: "Help Center", href: "#" }
     ]
   },
   {

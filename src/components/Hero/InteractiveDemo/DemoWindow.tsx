@@ -159,10 +159,14 @@ export const DemoWindow: React.FC = () => {
   return (
     <div
       ref={containerRef}
-      className={`baby-grok-bot-shell relative mx-auto w-full max-w-5xl rounded-2xl border border-[var(--grok-bot-border-default,#ffffff1f)] bg-[var(--grok-bot-bg-chrome,#141414)] shadow-2xl overflow-hidden transition-all duration-300 hero-glow-desktop ${
+      className={`baby-grok-bot-shell relative mx-auto w-full max-w-5xl rounded-3xl border border-black/[0.1] bg-white shadow-2xl overflow-hidden transition-all duration-300 ${
         isDragging ? 'select-none cursor-col-resize' : ''
       }`}
-      style={{ height: '640px' }}
+      style={{
+        height: '640px',
+        boxShadow:
+          '0 24px 60px -15px rgba(0,0,0,0.1), 0 0 0 1px rgba(0,0,0,0.06)',
+      }}
     >
       <div className="flex h-full w-full">
         {/* Resizable Sidebar */}
@@ -181,21 +185,21 @@ export const DemoWindow: React.FC = () => {
           />
         </div>
 
-        {/* Draggable Divider Handle (hidden on small mobile screens) */}
+        {/* Draggable Divider Handle */}
         {!isMobileScreen && (
           <div
             onMouseDown={handleMouseDown}
             role="separator"
             aria-orientation="vertical"
             aria-label="Resize sidebar"
-            className="group relative w-[1px] bg-[var(--grok-bot-border-default,#ffffff1f)] hover:w-[3px] hover:bg-foreground/40 transition-all cursor-col-resize z-20 shrink-0"
+            className="group relative w-[1px] bg-black/[0.08] hover:w-[3px] hover:bg-black/30 transition-all cursor-col-resize z-20 shrink-0"
           >
             <div className="absolute inset-y-0 -left-1.5 -right-1.5 cursor-col-resize" />
           </div>
         )}
 
-        {/* Conversation & Composer Area */}
-        <div className="flex flex-1 flex-col h-full min-w-0 bg-[var(--grok-bot-bg-editor,#1c1c1c)]">
+        {/* Conversation Area */}
+        <div className="flex flex-1 flex-col h-full min-w-0 bg-white">
           <DemoConversation agent={activeAgent} isThinking={isThinking} />
           <DemoComposer
             agentName={activeAgent.name}

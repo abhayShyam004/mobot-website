@@ -1,19 +1,21 @@
 import React from 'react';
 import { ArrowUpRight } from 'lucide-react';
+import { GrokBotMark } from '../common/GrokBotMark';
 
 export const AnnouncementBadge: React.FC = () => {
   return (
     <a
       href="https://x.ai/news/introducing-grok-bot"
-      className="group/launch mx-auto inline-flex max-w-full items-center gap-1.5 rounded-full border border-border/80 bg-card/60 px-3 py-1.5 text-xs transition-colors hover:border-foreground/20 hover:bg-card mb-5 sm:mb-6 shadow-sm"
+      className="group mx-auto inline-flex items-center gap-1.5 rounded-full border border-black/[0.08] bg-black/[0.03] py-1 ps-2 pe-2.5 text-xs font-medium text-black/80 hover:bg-black/[0.06] hover:text-black transition-all mb-5 shadow-2xs"
     >
-      <span className="font-semibold text-foreground">Grok Bot is here</span>
-      <span className="hidden sm:inline text-foreground/40">•</span>
-      <span className="hidden sm:inline text-foreground/70 group-hover/launch:text-foreground transition-colors">
-        Read the launch post
+      <span className="flex size-4 items-center justify-center rounded-full bg-[#f19d38] text-white">
+        <GrokBotMark size={11} fgColor="#ffffff" bgColor="#f19d38" />
       </span>
-      <span className="flex size-5 shrink-0 items-center justify-center rounded-full bg-foreground/[0.06] text-foreground group-hover/launch:bg-foreground/10 transition-colors ml-0.5">
-        <ArrowUpRight className="size-3" />
+      <span>Grok Bot is here</span>
+      <span className="text-black/40">·</span>
+      <span className="text-black/70 group-hover:text-black flex items-center gap-0.5">
+        Read the launch post
+        <ArrowUpRight className="size-3 text-black/50 group-hover:text-black transition-colors" />
       </span>
     </a>
   );

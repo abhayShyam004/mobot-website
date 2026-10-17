@@ -13,7 +13,7 @@ import { CtaSection } from './components/CTA/CtaSection';
 import { FooterSection } from './components/Footer/FooterSection';
 
 export default function App() {
-  const [isDarkMode, setIsDarkMode] = useState<boolean>(true);
+  const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
 
   useEffect(() => {
     if (isDarkMode) {
@@ -28,43 +28,43 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground font-sans antialiased selection:bg-foreground selection:text-background transition-colors duration-200">
-      {/* Top Navigation */}
+    <div className="min-h-screen bg-[#ffffff] text-[#0d0d0d] font-sans antialiased selection:bg-black selection:text-white transition-colors duration-200">
+      {/* 1. Fixed/Sticky Top Navigation */}
       <Navbar />
 
       <main>
-        {/* 1. Hero Section with Interactive Live Bot Demo */}
+        {/* 2. Hero Section with Live Desktop Bot Demo */}
         <HeroSection />
 
-        {/* 2. Statement Section ("Message Bots like teammates") */}
+        {/* 3. "Message Bots like teammates" Statement Card with Pop-out Mascot */}
         <StatementSection />
 
-        {/* 3. Features Section (4 Interactive Cards) */}
+        {/* 4. "Work with many Bots at once" 4-Card Feature Grid */}
         <FeaturesSection />
 
-        {/* 4. Use Cases Section (Pills, Descriptions, Dynamic Preview) */}
+        {/* 5. "Give each Bot a job" Filter Pills and Dynamic Preview */}
         <UseCasesSection />
 
-        {/* 5. SpaceX SI Team Video Section */}
+        {/* 6. "The SpaceXSI team runs on Grok Bot" Video Section */}
         <VideoSection />
 
-        {/* 6. Pricing Section (Individual/Teams toggle & Tier Cards) */}
+        {/* 7. Pricing Section (Individual/Teams Toggle, Tier Cards, Eligibility Strip) */}
         <PricingSection />
 
-        {/* 7. Download Section (Desktop & Mobile) */}
+        {/* 8. Download Section (Desktop & Mobile) */}
         <DownloadSection />
 
-        {/* 8. Guides Section */}
+        {/* 9. Grok Bot Guides Teaser */}
         <GuidesSection />
 
-        {/* 9. FAQs Section */}
+        {/* 10. FAQs Accordions Section */}
         <FaqSection />
 
-        {/* 10. CTA Section ("Meet your first Bot") */}
+        {/* 11. Final "Meet your first Bot" CTA with Wireframe Mascot Arch */}
         <CtaSection />
       </main>
 
-      {/* 11. Footer Section */}
+      {/* 12. Full 10-Column Footer */}
       <FooterSection isDarkMode={isDarkMode} onToggleTheme={toggleTheme} />
     </div>
   );

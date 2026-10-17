@@ -29,22 +29,22 @@ export const DemoComposer: React.FC<DemoComposerProps> = ({
   };
 
   return (
-    <div className="shrink-0 relative z-10 px-5 pb-4 bg-[var(--grok-bot-bg-editor,#1c1c1c)]">
+    <div className="shrink-0 relative z-10 px-5 pb-4 bg-white">
       {/* Top gradient fade */}
       <div
         aria-hidden="true"
-        className="baby-grok-bot-composer-fade pointer-events-none absolute inset-x-0 bottom-full h-10 bg-gradient-to-t from-[var(--grok-bot-bg-editor,#1c1c1c)] to-transparent"
+        className="baby-grok-bot-composer-fade pointer-events-none absolute inset-x-0 bottom-full h-8 bg-gradient-to-t from-white to-transparent"
       />
 
       <form
         onSubmit={handleSubmit}
-        className="baby-grok-bot-composer flex items-center gap-2 rounded-full border border-[var(--grok-bot-border-default,#ffffff1f)] bg-[var(--grok-bot-bg-elevated,#262626)] px-2.5 py-1.5 shadow-sm transition-all focus-within:border-foreground/30 focus-within:ring-1 focus-within:ring-foreground/20"
+        className="baby-grok-bot-composer flex items-center gap-2 rounded-full border border-black/[0.12] bg-[#fbfbfb] px-2.5 py-1.5 shadow-2xs transition-all focus-within:border-black/30 focus-within:ring-1 focus-within:ring-black/10"
       >
         {/* Plus / Attach Action Button */}
         <button
           type="button"
           aria-label="Add attachment"
-          className="flex size-7 shrink-0 items-center justify-center rounded-full bg-[var(--grok-bot-fill-secondary,#ffffff0f)] text-foreground/70 hover:text-foreground hover:bg-foreground/15 transition-colors"
+          className="flex size-7 shrink-0 items-center justify-center rounded-full bg-black/[0.05] text-black/70 hover:text-black hover:bg-black/10 transition-colors"
         >
           <Plus className="size-3.5" />
         </button>
@@ -58,7 +58,7 @@ export const DemoComposer: React.FC<DemoComposerProps> = ({
             onKeyDown={handleKeyDown}
             disabled={disabled}
             placeholder={`Message ${agentName}`}
-            className="baby-grok-bot-composer-field-input w-full bg-transparent text-[13.5px] text-foreground placeholder:text-foreground/40 outline-none px-1"
+            className="baby-grok-bot-composer-field-input w-full bg-transparent text-[13px] text-black placeholder:text-black/40 outline-none px-1"
           />
         </div>
 
@@ -68,7 +68,7 @@ export const DemoComposer: React.FC<DemoComposerProps> = ({
             type="submit"
             disabled={disabled}
             aria-label="Send message"
-            className="flex size-7 shrink-0 items-center justify-center rounded-full bg-[var(--grok-bot-fill-emphasis,#f0f0f0)] text-[var(--grok-bot-bubble-user-ink,#141414)] hover:opacity-90 active:scale-95 transition-all shadow-xs cursor-pointer"
+            className="flex size-7 shrink-0 items-center justify-center rounded-full bg-black text-white hover:bg-black/85 active:scale-95 transition-all shadow-xs cursor-pointer"
           >
             <ArrowUp className="size-4 stroke-[2.5]" />
           </button>
@@ -76,7 +76,7 @@ export const DemoComposer: React.FC<DemoComposerProps> = ({
           <button
             type="button"
             aria-label="Voice input"
-            className="flex size-7 shrink-0 items-center justify-center rounded-full bg-[var(--grok-bot-fill-secondary,#ffffff0f)] text-foreground/50 hover:text-foreground hover:bg-foreground/15 transition-colors cursor-pointer"
+            className="flex size-7 shrink-0 items-center justify-center rounded-full bg-black/[0.05] text-black/50 hover:text-black hover:bg-black/10 transition-colors cursor-pointer"
           >
             <Mic className="size-3.5" />
           </button>

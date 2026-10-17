@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { INDIVIDUAL_TIERS, TEAMS_TIERS } from '../../data/pricing';
 import type { PricingTier } from '../../data/pricing';
-import { Check, Sparkles } from 'lucide-react';
+import { Check, RefreshCw } from 'lucide-react';
 
 export const PricingSection: React.FC = () => {
   const [tab, setTab] = useState<'individual' | 'teams'>('individual');
@@ -12,15 +12,15 @@ export const PricingSection: React.FC = () => {
     <section id="pricing" className="overflow-hidden py-20 sm:py-28">
       <div className="mx-auto flex w-full max-w-[var(--site-content-width,1280px)] flex-col gap-10 px-4 sm:px-6">
         {/* Section Heading & Contact Sales */}
-        <div className="flex flex-col items-center gap-5">
-          <h2 className="font-display text-3xl font-normal tracking-tight text-balance sm:text-4xl text-center text-foreground">
+        <div className="flex flex-col items-center gap-4">
+          <h2 className="font-display text-3xl font-normal tracking-tight text-balance sm:text-4xl text-center text-black">
             Pricing
           </h2>
           <a
             href="https://cursor.com/contact-sales?product=grok-bot"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center rounded-full bg-foreground/[0.04] border border-border/50 text-foreground px-5 py-2 text-sm font-medium hover:bg-foreground/[0.08] transition-colors"
+            className="inline-flex items-center justify-center rounded-full bg-[#f4f4f6] border border-black/[0.06] text-black px-5 py-2 text-xs sm:text-sm font-medium hover:bg-[#eaeaea] transition-colors"
           >
             Contact sales
           </a>
@@ -31,16 +31,16 @@ export const PricingSection: React.FC = () => {
           <div
             role="group"
             aria-label="Choose Individual or Teams plans"
-            className="bg-foreground/[0.06] border border-border/40 flex rounded-full p-1"
+            className="bg-[#ebebed] flex rounded-full p-1"
           >
             <button
               type="button"
               aria-pressed={tab === 'individual'}
               onClick={() => setTab('individual')}
-              className={`rounded-full px-5 py-1.5 text-sm font-medium transition-all ${
+              className={`rounded-full px-5 py-1.5 text-xs sm:text-sm font-medium transition-all cursor-pointer ${
                 tab === 'individual'
-                  ? 'bg-background text-foreground shadow-sm'
-                  : 'text-muted-foreground hover:text-foreground'
+                  ? 'bg-white text-black shadow-xs'
+                  : 'text-black/60 hover:text-black'
               }`}
             >
               Individual
@@ -49,10 +49,10 @@ export const PricingSection: React.FC = () => {
               type="button"
               aria-pressed={tab === 'teams'}
               onClick={() => setTab('teams')}
-              className={`rounded-full px-5 py-1.5 text-sm font-medium transition-all ${
+              className={`rounded-full px-5 py-1.5 text-xs sm:text-sm font-medium transition-all cursor-pointer ${
                 tab === 'teams'
-                  ? 'bg-background text-foreground shadow-sm'
-                  : 'text-muted-foreground hover:text-foreground'
+                  ? 'bg-white text-black shadow-xs'
+                  : 'text-black/60 hover:text-black'
               }`}
             >
               Teams
@@ -64,22 +64,22 @@ export const PricingSection: React.FC = () => {
             {tiers.map((tier) => (
               <article
                 key={tier.id}
-                className="bg-card flex h-full flex-col justify-between rounded-3xl border border-border/40 p-6 sm:p-8 shadow-sm transition-all hover:border-border/80"
+                className="bg-[#f8f8fa] flex h-full flex-col justify-between rounded-3xl border border-black/[0.06] p-6 sm:p-8 shadow-2xs transition-all hover:border-black/[0.12]"
               >
                 <div>
-                  <div className="flex min-h-8 items-center justify-between gap-3">
-                    <h3 className="text-foreground text-sm font-medium">{tier.name}</h3>
+                  <div className="flex min-h-7 items-center justify-between gap-3">
+                    <h3 className="text-black/60 text-xs sm:text-sm font-medium">{tier.name}</h3>
                   </div>
 
                   <p className="mt-3 flex min-w-0 items-baseline gap-1.5">
-                    <span className="font-display shrink-0 text-4xl tracking-tight font-normal text-foreground">
+                    <span className="font-display shrink-0 text-4xl tracking-tight font-normal text-black">
                       ${tier.priceMonthly}
                     </span>
-                    <span className="text-muted-foreground min-w-0 truncate text-sm">
+                    <span className="text-black/60 min-w-0 truncate text-xs sm:text-sm">
                       {tier.period}
                     </span>
                   </p>
-                  <p className="text-muted-foreground mt-1 min-h-5 text-xs">
+                  <p className="text-black/50 mt-1 min-h-5 text-xs">
                     {tier.billedNote}
                   </p>
 
@@ -87,20 +87,20 @@ export const PricingSection: React.FC = () => {
                     href={tier.buttonHref}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center rounded-full bg-[var(--grok-bot-fill-emphasis,#f0f0f0)] text-[var(--grok-bot-bubble-user-ink,#141414)] hover:opacity-90 h-11 px-6 text-sm mt-6 w-full font-medium transition-all shadow-xs"
+                    className="inline-flex items-center justify-center rounded-full bg-black text-white hover:bg-black/85 h-10 px-6 text-xs sm:text-sm mt-6 w-full font-medium transition-all shadow-xs"
                   >
                     {tier.buttonText}
                   </a>
 
-                  <p className="text-foreground mt-8 text-sm font-medium">
+                  <p className="text-black mt-8 text-xs sm:text-sm font-medium">
                     {tier.includesHeading}
                   </p>
 
                   <ul className="mt-3 grid content-start gap-2.5">
                     {tier.features.map((feat, idx) => (
-                      <li key={idx} className="flex items-start gap-2 text-sm">
-                        <Check className="text-muted-foreground mt-0.5 size-4 shrink-0 stroke-[2]" />
-                        <span className="text-muted-foreground text-xs leading-relaxed">
+                      <li key={idx} className="flex items-start gap-2 text-xs sm:text-sm">
+                        <Check className="text-black/50 mt-0.5 size-3.5 shrink-0 stroke-[2.5]" />
+                        <span className="text-black/70 text-xs leading-relaxed">
                           {feat}
                         </span>
                       </li>
@@ -111,15 +111,13 @@ export const PricingSection: React.FC = () => {
             ))}
           </div>
 
-          {/* Inclusion Banner at Bottom */}
-          <div className="mt-4 flex w-full max-w-5xl flex-col sm:flex-row items-center justify-between gap-4 rounded-3xl border border-border/40 bg-card p-6 shadow-sm">
+          {/* Lower Eligibility Strip */}
+          <div className="mt-4 flex w-full max-w-5xl flex-col sm:flex-row items-center justify-between gap-4 rounded-2xl border border-black/[0.06] bg-[#f8f8fa] px-6 py-4 shadow-2xs">
             <div className="flex items-center gap-3">
-              <div className="flex size-9 items-center justify-center rounded-full bg-foreground/10 text-foreground shrink-0">
-                <Sparkles className="size-4" />
-              </div>
-              <span className="text-foreground text-sm">
+              <RefreshCw className="size-4 text-black/50 shrink-0" />
+              <span className="text-black text-xs sm:text-sm">
                 Already on an eligible Premium, Super, Ultra, Teams, or Enterprise plan?{' '}
-                <span className="text-muted-foreground">Grok Bot is included.</span>
+                <span className="text-black/60">Grok Bot is included.</span>
               </span>
             </div>
 
@@ -127,7 +125,7 @@ export const PricingSection: React.FC = () => {
               href="https://grok.com/?product=grok-bot"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex shrink-0 items-center justify-center rounded-full border border-border/50 bg-foreground/[0.04] px-5 py-2.5 text-sm font-medium text-foreground hover:bg-foreground/[0.08] transition-colors"
+              className="inline-flex shrink-0 items-center justify-center rounded-full border border-black/[0.08] bg-white px-4 py-2 text-xs font-medium text-black hover:bg-black/[0.04] transition-colors shadow-2xs"
             >
               Sign in with your plan
             </a>

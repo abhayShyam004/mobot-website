@@ -17,9 +17,9 @@ export const VideoSection: React.FC = () => {
   };
 
   return (
-    <section id="video" className="overflow-hidden">
-      <div className="mx-auto w-full px-4 lg:px-6 xl:max-w-7xl pt-24 pb-20 sm:pt-36 sm:pb-32">
-        <h2 className="font-display text-3xl font-normal tracking-tight text-balance sm:text-4xl mb-10 text-center text-foreground">
+    <section id="video" className="overflow-hidden py-16 sm:py-24">
+      <div className="mx-auto w-full max-w-[var(--site-content-width,1280px)] px-4 sm:px-6">
+        <h2 className="font-display text-3xl font-normal tracking-tight text-balance sm:text-4xl mb-10 text-center text-black">
           The SpaceXSI team runs on Grok Bot
         </h2>
 
@@ -30,21 +30,15 @@ export const VideoSection: React.FC = () => {
             aria-label={isPlaying ? 'Pause launch trailer' : 'Play launch trailer'}
             aria-expanded={isPlaying}
             data-video-card=""
-            className="group bg-card relative aspect-video w-full cursor-pointer overflow-hidden rounded-3xl border border-border/40 text-left shadow-2xl transition-all"
+            className="group relative aspect-video w-full cursor-pointer overflow-hidden rounded-3xl border border-black/[0.08] text-left shadow-xl transition-all"
           >
             {/* Background Simulated Video Preview */}
-            <div className="absolute inset-0 bg-neutral-900 bg-gradient-to-tr from-black/80 via-neutral-900/60 to-neutral-800/80 flex items-center justify-center">
-              {/* Starfield / grid background graphic */}
-              <div
-                aria-hidden="true"
-                className="absolute inset-0 opacity-25 bg-[radial-gradient(#ffffff33_1px,transparent_1px)] [background-size:24px_24px]"
-              />
-
+            <div className="absolute inset-0 bg-neutral-900 flex items-center justify-center overflow-hidden">
               <video
                 ref={videoRef}
                 src="https://media.x.ai/v1/website/260810_2245_bw_dr_cursor_bot_edit_v8-60724aba.mp4"
                 poster="https://media.x.ai/v1/website/launch-trailer-poster-1a559a65.jpg"
-                className="absolute inset-0 size-full object-cover"
+                className="absolute inset-0 size-full object-cover transition-transform duration-700 group-hover:scale-[1.01]"
                 loop
                 playsInline
                 preload="metadata"
@@ -54,9 +48,9 @@ export const VideoSection: React.FC = () => {
 
             {/* Play Button Overlay */}
             {!isPlaying && (
-              <span className="pointer-events-none absolute inset-0 flex items-center px-6 sm:px-10 lg:px-14 bg-black/30 backdrop-blur-[2px] transition-all group-hover:bg-black/20">
-                <span className="inline-flex items-center gap-[0.35em] group-hover:-translate-x-0.5 sm:group-hover:-translate-x-1 text-2xl leading-none font-medium text-white transition-transform duration-300 ease-out sm:text-4xl lg:text-5xl">
-                  <Play className="size-[0.8em] fill-current" />
+              <span className="pointer-events-none absolute inset-0 flex items-center px-6 sm:px-12 lg:px-16 bg-black/20 transition-all group-hover:bg-black/10">
+                <span className="inline-flex items-center gap-[0.35em] text-3xl sm:text-5xl lg:text-6xl font-medium text-white transition-transform duration-300 ease-out group-hover:translate-x-1">
+                  <Play className="size-[0.75em] fill-current" />
                   Play
                 </span>
               </span>

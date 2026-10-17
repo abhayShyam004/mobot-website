@@ -5,72 +5,65 @@ export const HeroActions: React.FC = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   return (
-    <div className="relative flex flex-col sm:flex-row items-center justify-center gap-3 mt-6 sm:mt-8">
-      {/* Primary Download Button with Dropdown */}
+    <div className="relative flex flex-col sm:flex-row items-center justify-center gap-3.5 mt-7 sm:mt-8">
+      {/* Primary Download Button with Dropdown Selector */}
       <div className="relative">
-        <div className="inline-flex rounded-full bg-foreground text-background shadow-lg transition-all hover:bg-foreground/90">
+        <div className="inline-flex rounded-full bg-black text-white shadow-md transition-all hover:bg-black/90">
           <a
             href="https://api2.cursor.sh/updates/download/stable/linux-x64/grok-bot-fb0a830618be0c54"
             download
-            className="inline-flex h-12 items-center gap-2.5 px-6 text-sm font-medium"
+            className="inline-flex h-11 items-center gap-2.5 px-6 text-sm font-medium"
           >
-            <Terminal className="size-4" />
+            <Terminal className="size-4 opacity-80" />
             <span>Download for Linux</span>
           </a>
           <button
             type="button"
             onClick={() => setDropdownOpen(!dropdownOpen)}
-            className="flex h-12 items-center border-l border-background/20 px-3.5 hover:bg-foreground/80 rounded-r-full transition-colors"
-            aria-label="Download options"
+            aria-label="Other downloads"
+            aria-expanded={dropdownOpen}
+            className="flex h-11 items-center justify-center border-l border-white/20 px-3 hover:bg-white/10 transition-colors rounded-r-full cursor-pointer"
           >
-            <ChevronDown className={`size-4 transition-transform duration-200 ${dropdownOpen ? 'rotate-180' : ''}`} />
+            <ChevronDown
+              className={`size-4 transition-transform duration-200 ${
+                dropdownOpen ? 'rotate-180' : ''
+              }`}
+            />
           </button>
         </div>
 
-        {/* OS Platform Dropdown */}
+        {/* Platform Dropdown Menu */}
         {dropdownOpen && (
-          <div className="absolute left-0 sm:left-auto sm:right-0 top-full mt-2 w-64 rounded-2xl bg-card border border-border p-2 shadow-2xl backdrop-blur-xl z-30 animate-in fade-in-0 zoom-in-95 duration-150">
+          <div className="absolute top-full left-0 mt-2 w-56 rounded-2xl bg-white border border-black/[0.08] p-2 shadow-2xl z-30 animate-in fade-in-0 zoom-in-95 duration-150">
             <a
-              href="#"
-              onClick={() => setDropdownOpen(false)}
-              className="flex items-center gap-3 rounded-xl p-2.5 hover:bg-foreground/5 text-left transition-colors"
+              href="https://cursor.com/download"
+              className="flex items-center gap-2.5 rounded-xl px-3 py-2 text-xs font-medium text-black hover:bg-black/[0.04] transition-colors"
             >
-              <Apple className="size-5 text-foreground/80 shrink-0" />
-              <div>
-                <div className="text-xs font-semibold text-foreground">macOS</div>
-                <div className="text-[11px] text-foreground/60">Universal (.dmg) · Apple Silicon & Intel</div>
-              </div>
+              <Apple className="size-4 opacity-70" />
+              <span>macOS (Apple Silicon & Intel)</span>
             </a>
             <a
-              href="#"
-              onClick={() => setDropdownOpen(false)}
-              className="flex items-center gap-3 rounded-xl p-2.5 hover:bg-foreground/5 text-left transition-colors"
+              href="https://cursor.com/download"
+              className="flex items-center gap-2.5 rounded-xl px-3 py-2 text-xs font-medium text-black hover:bg-black/[0.04] transition-colors"
             >
-              <Monitor className="size-5 text-foreground/80 shrink-0" />
-              <div>
-                <div className="text-xs font-semibold text-foreground">Windows</div>
-                <div className="text-[11px] text-foreground/60">x64 Installer (.exe)</div>
-              </div>
+              <Monitor className="size-4 opacity-70" />
+              <span>Windows x64</span>
             </a>
             <a
-              href="#"
-              onClick={() => setDropdownOpen(false)}
-              className="flex items-center gap-3 rounded-xl p-2.5 hover:bg-foreground/5 text-left transition-colors"
+              href="https://cursor.com/download"
+              className="flex items-center gap-2.5 rounded-xl px-3 py-2 text-xs font-medium text-black hover:bg-black/[0.04] transition-colors"
             >
-              <Terminal className="size-5 text-foreground/80 shrink-0" />
-              <div>
-                <div className="text-xs font-semibold text-foreground">Linux</div>
-                <div className="text-[11px] text-foreground/60">.deb, .AppImage, or .rpm</div>
-              </div>
+              <Terminal className="size-4 opacity-70" />
+              <span>Linux (.deb, .rpm, AppImage)</span>
             </a>
           </div>
         )}
       </div>
 
-      {/* Secondary Button */}
+      {/* Secondary Action: Contact sales */}
       <a
         href="https://cursor.com/contact-sales?product=grok-bot"
-        className="inline-flex h-12 items-center justify-center rounded-full bg-foreground/[0.06] hover:bg-foreground/[0.1] px-6 text-sm font-medium text-foreground transition-colors"
+        className="inline-flex h-11 items-center justify-center rounded-full px-5 text-sm font-medium text-black/80 hover:text-black hover:bg-black/[0.04] transition-all"
       >
         Contact sales
       </a>

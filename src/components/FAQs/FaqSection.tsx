@@ -11,15 +11,15 @@ export const FaqSection: React.FC = () => {
   };
 
   return (
-    <section id="faqs" className="overflow-hidden">
-      <div className="mx-auto grid w-full max-w-[var(--site-content-width,1280px)] gap-10 px-4 py-20 sm:px-6 sm:py-28 lg:grid-cols-2 lg:gap-16">
+    <section id="faqs" className="overflow-hidden py-20 sm:py-28">
+      <div className="mx-auto grid w-full max-w-[var(--site-content-width,1280px)] gap-10 px-4 sm:px-6 lg:grid-cols-2 lg:gap-16">
         {/* Left Column Sticky Header */}
-        <h2 className="lg:sticky lg:top-8 lg:self-start font-display text-3xl font-normal tracking-tight text-balance sm:text-4xl text-foreground">
+        <h2 className="lg:sticky lg:top-8 lg:self-start font-display text-3xl font-normal tracking-tight text-balance sm:text-4xl text-black">
           FAQs
         </h2>
 
         {/* Right Column Accordion Items */}
-        <div className="divide-y divide-border border-b border-border">
+        <div className="divide-y divide-black/[0.08] border-b border-black/[0.08]">
           {FAQS_DATA.map((faq) => {
             const isOpen = openId === faq.id;
             return (
@@ -29,17 +29,17 @@ export const FaqSection: React.FC = () => {
                     type="button"
                     aria-expanded={isOpen}
                     onClick={() => toggleItem(faq.id)}
-                    className="focus-visible:ring-primary/30 flex w-full items-start justify-between gap-6 py-5 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 cursor-pointer transition-colors"
+                    className="flex w-full items-start justify-between gap-6 py-5 text-left cursor-pointer transition-colors hover:text-black/70"
                   >
-                    <span className="text-foreground text-base font-medium leading-6">
+                    <span className="text-black text-sm sm:text-base font-medium leading-6">
                       {faq.question}
                     </span>
                     <span
-                      className={`mt-0.5 text-foreground/60 transition-transform duration-200 shrink-0 ${
+                      className={`mt-0.5 text-black/50 transition-transform duration-200 shrink-0 ${
                         isOpen ? 'rotate-45' : ''
                       }`}
                     >
-                      <Plus className="size-5" />
+                      <Plus className="size-4 sm:size-5" />
                     </span>
                   </button>
                 </h3>
@@ -49,13 +49,13 @@ export const FaqSection: React.FC = () => {
                     role="region"
                     className="overflow-hidden transition-all duration-300"
                   >
-                    <div className="text-muted-foreground max-w-2xl pr-11 pb-6 text-sm sm:text-base leading-relaxed">
+                    <div className="text-black/65 max-w-2xl pr-8 pb-6 text-xs sm:text-sm leading-relaxed">
                       <p>{faq.answer}</p>
                       {faq.hasLink && faq.linkHref && faq.linkText && (
-                        <div className="mt-3">
+                        <div className="mt-2.5">
                           <a
                             href={faq.linkHref}
-                            className="text-foreground underline underline-offset-4 hover:text-foreground/80 font-medium"
+                            className="text-black underline underline-offset-4 hover:text-black/70 font-medium"
                           >
                             {faq.linkText}
                           </a>
