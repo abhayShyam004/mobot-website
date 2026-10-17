@@ -76,15 +76,27 @@ if (html.includes(linuxDropdownTrigger) && !html.includes('id=\"_r_0_\"')) {
   }
 }
 
-// 7. Ensure mascot eyes in #get-started are wrapped in a group for interactive cursor tracking
+// 7. Ensure mascot eyes in #get-started are split into independent left and right eyes for realistic 2D tracking
 const targetEyePathStart = '<path d="M955.74 747.83';
 const eyePathIdx = html.indexOf(targetEyePathStart);
-if (eyePathIdx !== -1 && !html.includes('id="mascot-eyes"')) {
+if (eyePathIdx !== -1 && !html.includes('id="mascot-eye-left"')) {
   const eyeClosingIdx = html.indexOf('</path>', eyePathIdx);
   if (eyeClosingIdx !== -1) {
-    const originalPath = html.slice(eyePathIdx, eyeClosingIdx + 7);
-    const wrappedPath = `<g id="mascot-eyes" class="mascot-eyes" style="will-change: transform; transform: translate(0px, 0px); transition: transform 0.08s ease-out;">${originalPath}</g>`;
-    html = html.slice(0, eyePathIdx) + wrappedPath + html.slice(eyeClosingIdx + 7);
+    const fullPathStr = html.slice(eyePathIdx, eyeClosingIdx + 7);
+    const dMatch = fullPathStr.match(/d="([^"]+)"/);
+    if (dMatch) {
+      const d = dMatch[1];
+      const splitIdx = d.indexOf('M1140.06');
+      if (splitIdx !== -1) {
+        const leftD = d.slice(0, splitIdx);
+        const rightD = d.slice(splitIdx);
+        const wrappedGroup = `<g id="mascot-eyes" class="mascot-eyes">` +
+          `<g id="mascot-eye-left" class="mascot-eye" style="will-change: transform; transform: translate(0px, 0px);"><path d="${leftD}" fill="var(--bg)"></path></g>` +
+          `<g id="mascot-eye-right" class="mascot-eye" style="will-change: transform; transform: translate(0px, 0px);"><path d="${rightD}" fill="var(--bg)"></path></g>` +
+          `</g>`;
+        html = html.slice(0, eyePathIdx) + wrappedGroup + html.slice(eyeClosingIdx + 7);
+      }
+    }
   }
 }
 

@@ -1,98 +1,157 @@
-// Interactive cursor tracking for the giant mascot eyes above footer
+// Realistic 2D binocular cursor tracking for the giant mascot eyes in #get-started
 
 export function initMascotEyes() {
-  const eyesGroupEl = document.getElementById('mascot-eyes');
-  if (!eyesGroupEl) return;
+  const leftEyeEl = document.getElementById('mascot-eye-left');
+  const rightEyeEl = document.getElementById('mascot-eye-right');
+  const fallbackEyesEl = document.getElementById('mascot-eyes');
 
-  const svgEl = eyesGroupEl.closest('svg');
-  if (!svgEl) return;
+  if (!leftEyeEl && !fallbackEyesEl) return;
 
-  const eyesGroup = eyesGroupEl;
-  const svg = svgEl;
-
-  // Reduced motion check
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-  if (prefersReducedMotion.matches) return;
 
-  let targetX = 0;
-  let targetY = 0;
-  let currentX = 0;
-  let currentY = 0;
+  // Binocular tracking state for each eye
+  interface EyeTracker {
+    el: HTMLElement;
+    targetX: number;
+    targetY: number;
+    currentX: number;
+    currentY: number;
+    rxRatio: number;
+    ryRatio: number;
+  }
+
+  const eyes: EyeTracker[] = [];
+
+  if (leftEyeEl && rightEyeEl) {
+    eyes.push(
+      { el: leftEyeEl, targetX: 0, targetY: 0, currentX: 0, currentY: 0, rxRatio: 0.28, ryRatio: 0.24 },
+      { el: rightEyeEl, targetX: 0, targetY: 0, currentX: 0, currentY: 0, rxRatio: 0.28, ryRatio: 0.24 }
+    );
+  } else if (fallbackEyesEl) {
+    eyes.push(
+      { el: fallbackEyesEl, targetX: 0, targetY: 0, currentX: 0, currentY: 0, rxRatio: 0.22, ryRatio: 0.20 }
+    );
+  }
+
   let isAnimating = false;
 
-  const maxShift = 30; // Maximum pupil translation in SVG units
-
   function render() {
-    const dx = targetX - currentX;
-    const dy = targetY - currentY;
+    if (prefersReducedMotion.matches) {
+      for (const eye of eyes) {
+        eye.currentX = 0;
+        eye.currentY = 0;
+        eye.el.style.transform = 'translate(0px, 0px)';
+      }
+      isAnimating = false;
+      return;
+    }
 
-    // Linear interpolation easing
-    currentX += dx * 0.12;
-    currentY += dy * 0.12;
+    let hasDelta = false;
 
-    eyesGroup.style.transform = `translate(${currentX.toFixed(2)}px, ${currentY.toFixed(2)}px)`;
+    for (const eye of eyes) {
+      const dx = eye.targetX - eye.currentX;
+      const dy = eye.targetY - eye.currentY;
 
-    // Keep loop active until settled within 0.05px
-    if (Math.abs(dx) > 0.05 || Math.abs(dy) > 0.05) {
+      // Smooth linear interpolation (lerp factor = 0.16)
+      eye.currentX += dx * 0.16;
+      eye.currentY += dy * 0.16;
+
+      eye.el.style.transform = `translate(${eye.currentX.toFixed(2)}px, ${eye.currentY.toFixed(2)}px)`;
+
+      if (Math.abs(dx) > 0.05 || Math.abs(dy) > 0.05) {
+        hasDelta = true;
+      } else {
+        eye.currentX = eye.targetX;
+        eye.currentY = eye.targetY;
+        eye.el.style.transform = `translate(${eye.currentX.toFixed(2)}px, ${eye.currentY.toFixed(2)}px)`;
+      }
+    }
+
+    if (hasDelta) {
       requestAnimationFrame(render);
     } else {
-      currentX = targetX;
-      currentY = targetY;
-      eyesGroup.style.transform = `translate(${currentX.toFixed(2)}px, ${currentY.toFixed(2)}px)`;
       isAnimating = false;
     }
   }
 
   function startAnimation() {
-    if (!isAnimating) {
+    if (!isAnimating && !prefersReducedMotion.matches) {
       isAnimating = true;
       requestAnimationFrame(render);
     }
   }
 
-  function onPointerMove(e: MouseEvent | Touch) {
+  function updateGaze(clientX: number, clientY: number) {
     if (prefersReducedMotion.matches) return;
 
-    const rect = svg.getBoundingClientRect();
-    // Eyes center is located in upper half of mascot head
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height * 0.42;
+    for (const eye of eyes) {
+      const rect = eye.el.getBoundingClientRect();
+      
+      // Calculate true socket center in client viewport space
+      const socketCenterX = rect.left + rect.width / 2 - eye.currentX;
+      const socketCenterY = rect.top + rect.height / 2 - eye.currentY;
 
-    const deltaX = e.clientX - centerX;
-    const deltaY = e.clientY - centerY;
+      // Maximum safe travel within the elliptical eye socket
+      const maxRadiusX = rect.width * eye.rxRatio;
+      const maxRadiusY = rect.height * eye.ryRatio;
 
-    const angle = Math.atan2(deltaY, deltaX);
-    const dist = Math.hypot(deltaX, deltaY);
+      // 2D Vector from eye socket center to cursor
+      const dx = clientX - socketCenterX;
+      const dy = clientY - socketCenterY;
+      const dist = Math.hypot(dx, dy);
 
-    // Natural distance response curve
-    const shift = Math.min(dist / 500, 1) * maxShift;
+      if (dist > 0.001) {
+        const ux = dx / dist;
+        const uy = dy / dist;
 
-    targetX = Math.cos(angle) * shift;
-    targetY = Math.sin(angle) * shift;
+        // Smooth asymptotic non-linear distance curve
+        const intensity = dist / Math.sqrt(dist * dist + 160 * 160);
+
+        // Map to elliptical boundary: (targetX / maxRadiusX)^2 + (targetY / maxRadiusY)^2 <= 1
+        eye.targetX = ux * maxRadiusX * intensity;
+        eye.targetY = uy * maxRadiusY * intensity;
+      } else {
+        eye.targetX = 0;
+        eye.targetY = 0;
+      }
+    }
 
     startAnimation();
   }
 
+  function resetToNeutral() {
+    for (const eye of eyes) {
+      eye.targetX = 0;
+      eye.targetY = 0;
+    }
+    startAnimation();
+  }
+
+  // Pointer event listeners
   window.addEventListener('mousemove', (e: MouseEvent) => {
-    onPointerMove(e);
+    updateGaze(e.clientX, e.clientY);
   }, { passive: true });
 
   window.addEventListener('touchmove', (e: TouchEvent) => {
     if (e.touches.length > 0) {
-      onPointerMove(e.touches[0]);
+      updateGaze(e.touches[0].clientX, e.touches[0].clientY);
     }
   }, { passive: true });
 
-  // Reset to neutral forward gaze when pointer leaves the window
-  document.documentElement.addEventListener('mouseleave', () => {
-    targetX = 0;
-    targetY = 0;
-    startAnimation();
-  });
+  window.addEventListener('touchstart', (e: TouchEvent) => {
+    if (e.touches.length > 0) {
+      updateGaze(e.touches[0].clientX, e.touches[0].clientY);
+    }
+  }, { passive: true });
 
-  window.addEventListener('touchend', () => {
-    targetX = 0;
-    targetY = 0;
-    startAnimation();
+  // Return to neutral forward-facing gaze when pointer leaves or touch ends
+  document.documentElement.addEventListener('mouseleave', resetToNeutral);
+  window.addEventListener('blur', resetToNeutral);
+  window.addEventListener('touchend', resetToNeutral);
+  window.addEventListener('touchcancel', resetToNeutral);
+
+  // Reduced motion preference changes
+  prefersReducedMotion.addEventListener('change', () => {
+    resetToNeutral();
   });
 }
