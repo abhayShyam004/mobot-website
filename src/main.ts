@@ -26,6 +26,24 @@ function initSmoothScroll() {
   });
 }
 
+function initApkDownloadButtons() {
+  const MOBOT_APK_URL = 'https://github.com/abhayShyam004/MOBOT/releases/download/v1.1.0/MOBOT-1.1.0-arm64-v8a.apk';
+
+  // Ensure all elements intended as download buttons point directly to the APK
+  document.querySelectorAll('a').forEach(el => {
+    const text = el.textContent?.trim().toLowerCase() || '';
+    const track = el.getAttribute('data-track') || '';
+    const isDownloadAction =
+      (track.includes('download') || text === 'download' || text === 'download apk' || text === 'download android apk') &&
+      !track.includes('downloads.more');
+
+    if (isDownloadAction) {
+      el.setAttribute('href', MOBOT_APK_URL);
+      el.setAttribute('download', '');
+    }
+  });
+}
+
 function bootstrap() {
   const tasks = [
     { name: 'Navigation', fn: initNavigation },
@@ -36,6 +54,7 @@ function bootstrap() {
     { name: 'Pricing', fn: initPricing },
     { name: 'Faqs', fn: initFaqs },
     { name: 'Download', fn: initDownload },
+    { name: 'ApkDownloadButtons', fn: initApkDownloadButtons },
     { name: 'MascotEyes', fn: initMascotEyes },
     { name: 'SmoothScroll', fn: initSmoothScroll }
   ];
@@ -44,7 +63,7 @@ function bootstrap() {
     try {
       task.fn();
     } catch (err) {
-      console.warn(`[Grok Bot] Warning initializing ${task.name}:`, err);
+      console.warn(`[MOBOT] Warning initializing ${task.name}:`, err);
     }
   }
 }

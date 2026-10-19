@@ -19,7 +19,7 @@ export function initNavigation() {
     drawer.innerHTML = `
       <div class="flex items-center justify-between pb-6 border-b border-white/10">
         <a href="#hero" class="flex items-center gap-2.5 outline-none focus-visible:ring-2 focus-visible:ring-white/20 rounded-md p-1">
-          <img src="/app-icon.svg" alt="MOBOT Icon" width="28" height="28" class="size-7 rounded-lg shrink-0" style="width:28px;height:28px;border-radius:6px;display:block;flex-shrink:0;object-fit:contain" />
+          <img src="/logo.png" alt="MOBOT Icon" width="28" height="28" class="size-7 rounded-lg shrink-0 object-contain" />
           <span class="text-xl font-bold tracking-tight text-white">MOBOT</span>
         </a>
         <button type="button" id="close-mobile-menu" aria-label="Close menu" class="size-10 rounded-full flex items-center justify-center hover:bg-white/10 focus-visible:ring-2 focus-visible:ring-blue-500 outline-none">
@@ -36,7 +36,7 @@ export function initNavigation() {
         <a href="https://github.com/abhayShyam004/MOBOT" target="_blank" rel="noopener noreferrer" class="hover:text-blue-400 focus-visible:ring-2 focus-visible:ring-blue-500 rounded px-2 py-1 transition-colors">GitHub Repository</a>
       </nav>
       <div class="mt-auto pt-8 border-t border-white/10 flex flex-col gap-4">
-        <a href="#download" class="flex items-center justify-center rounded-full bg-primary text-background py-3 px-6 text-base font-semibold hover:opacity-90 focus-visible:ring-2 focus-visible:ring-blue-500 outline-none">
+        <a href="https://github.com/abhayShyam004/MOBOT/releases/download/v1.1.0/MOBOT-1.1.0-arm64-v8a.apk" download class="flex items-center justify-center rounded-full bg-primary text-background py-3 px-6 text-base font-semibold hover:opacity-90 focus-visible:ring-2 focus-visible:ring-blue-500 outline-none">
           Download Android APK
         </a>
       </div>

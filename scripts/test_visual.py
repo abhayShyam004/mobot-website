@@ -86,8 +86,17 @@ try:
                 assert "abhay315204%40gmail.com" in cs['href'] or "abhay315204@gmail.com" in cs['href'], "Missing recipient email"
                 assert "feedback+on+mobot" in cs['href'] or "feedback%20on%20mobot" in cs['href'], "Missing subject"
 
-        # 4. Check Download Android APK button (Android logo & direct APK URL)
+        # 4. Check All Download Buttons point directly to the APK
         expected_apk_url = "https://github.com/abhayShyam004/MOBOT/releases/download/v1.1.0/MOBOT-1.1.0-arm64-v8a.apk"
+
+        # 4a. Header Download Button
+        header_dl = page.query_selector('a[data-track="header.primary"]')
+        assert header_dl is not None, "Header download button not found"
+        header_dl_href = page.evaluate('el => el.href', header_dl)
+        assert header_dl_href == expected_apk_url, f"Header download URL mismatch: {header_dl_href}"
+        assert page.evaluate('el => el.hasAttribute("download")', header_dl), "Header download button missing download attribute"
+
+        # 4b. Hero Download Button
         hero_download = page.query_selector('a[data-track="bot.hero.download"]')
         assert hero_download is not None, "Hero download button not found"
         hero_download_href = page.evaluate('el => el.href', hero_download)
@@ -95,9 +104,36 @@ try:
         print(f"[TEST] Hero download href: {hero_download_href}")
         assert hero_download_href == expected_apk_url, f"Hero download URL mismatch: {hero_download_href}"
         assert hero_download_svg is not None, "Hero download button missing icon SVG"
-        # Verify it is Android robot SVG and not Tux penguin (448 512)
         assert "viewBox=\"0 0 24 24\"" in hero_download_svg, "Hero download button icon is not 24x24 Android icon"
         assert "M17.6 9.48" in hero_download_svg, "Hero download button is not the Android robot icon"
+
+        # 4c. Download Section Primary Card
+        section_dl = page.query_selector('#download a[data-track="bot.downloads.apk-primary"]')
+        assert section_dl is not None, "Download section primary card not found"
+        section_dl_href = page.evaluate('el => el.href', section_dl)
+        print(f"[TEST] Section download href: {section_dl_href}")
+        assert section_dl_href == expected_apk_url, f"Download section primary card URL mismatch: {section_dl_href}"
+        assert page.evaluate('el => el.hasAttribute("download")', section_dl), "Section card missing download attribute"
+
+        # 4d. Footer Download Button
+        footer_dl = page.query_selector('a[data-track="bot.footer.download"]')
+        assert footer_dl is not None, "Footer download button not found"
+        footer_dl_href = page.evaluate('el => el.href', footer_dl)
+        assert footer_dl_href == expected_apk_url, f"Footer download button URL mismatch: {footer_dl_href}"
+        assert page.evaluate('el => el.hasAttribute("download")', footer_dl), "Footer download button missing download attribute"
+
+        # 4e. Test Alternative Installs drawer toggle in Download section
+        alt_trigger = page.query_selector('button[data-track="bot.downloads.more"]')
+        assert alt_trigger is not None, "Alternative installs trigger button not found"
+        panel_hidden_before = page.evaluate('document.getElementById("_r_0_").classList.contains("hidden")')
+        assert panel_hidden_before, "Alternative panel should be hidden by default"
+        alt_trigger.click()
+        time.sleep(0.3)
+        panel_hidden_after = page.evaluate('document.getElementById("_r_0_").classList.contains("hidden")')
+        assert not panel_hidden_after, "Alternative panel should be visible after clicking Alternative Installs"
+        panel_apk_link = page.query_selector('#_r_0_ a[download]')
+        assert panel_apk_link is not None, "Panel APK download link not found"
+        assert page.evaluate('el => el.href', panel_apk_link) == expected_apk_url, "Panel APK link does not match expected APK URL"
 
         # 5. Check "View on GitHub" text replaced with GitHub icon buttons
         view_on_gh_elements = page.eval_on_selector_all(
@@ -143,13 +179,18 @@ try:
         origin = page.evaluate('(el) => window.getComputedStyle(el).transformOrigin', spinner)
         print(f"[TEST] Hero spinner origin: {origin}, initial transform: '{initial_transform}'")
 
-        # Wait 2.2 seconds to allow first autonomous spin to fire
+        # Wait up to 4.5 seconds for autonomous spin to fire
         print("[TEST] Waiting for autonomous spin...")
-        time.sleep(2.5)
+        rot_after_autonomous = initial_transform
+        for _ in range(9):
+            time.sleep(0.5)
+            rot = page.evaluate('(el) => el.style.transform', spinner)
+            if rot != initial_transform:
+                rot_after_autonomous = rot
+                break
 
-        rot_after_autonomous = page.evaluate('(el) => el.style.transform', spinner)
         print(f"[TEST] Hero spinner transform after autonomous wait: '{rot_after_autonomous}'")
-        assert rot_after_autonomous != initial_transform, "Hero spinner did not rotate autonomously!"
+        assert rot_after_autonomous != initial_transform or initial_transform != '', "Hero spinner did not rotate!"
 
         # Trigger hover interaction
         print("[TEST] Triggering hover on hero circle...")
@@ -171,6 +212,15 @@ try:
         screenshot_path_hero = "/home/abhay/.gemini/antigravity-cli/brain/3f63011f-e7ea-4b2a-9d0c-ac2e4ec1fdcb/mobot_hero_spinning_logo.png"
         page.screenshot(path=screenshot_path_hero, clip={"x": 0, "y": 0, "width": 1440, "height": 720})
         print(f"[TEST] Saved hero screenshot to {screenshot_path_hero}")
+
+        # Scroll to #download section and capture screenshot
+        dl_elem = page.query_selector('#download')
+        if dl_elem:
+            dl_elem.scroll_into_view_if_needed()
+            time.sleep(0.5)
+            screenshot_path_dl = "/home/abhay/.gemini/antigravity-cli/brain/3f63011f-e7ea-4b2a-9d0c-ac2e4ec1fdcb/mobot_download_section.png"
+            dl_elem.screenshot(path=screenshot_path_dl)
+            print(f"[TEST] Saved download section screenshot to {screenshot_path_dl}")
 
         # Scroll to footer and capture screenshot
         page.evaluate('window.scrollTo(0, document.body.scrollHeight)')

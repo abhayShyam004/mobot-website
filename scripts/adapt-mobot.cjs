@@ -86,7 +86,18 @@ const gmailFeedbackUrl = 'https://mail.google.com/mail/?view=cm&fs=1&to=abhay315
 const androidIconSvg = `<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="size-4 shrink-0"><path d="M17.6 9.48l1.84-3.18c.16-.31.04-.69-.26-.85-.29-.15-.65-.05-.83.22l-1.88 3.24c-1.34-.59-2.85-.92-4.47-.92s-3.13.33-4.47.92L5.65 5.67c-.19-.29-.55-.38-.84-.22-.31.16-.42.54-.26.85l1.84 3.18C3.8 11.23 2 14.18 2 17.52h20c0-3.34-1.8-6.29-4.4-8.04zM7 14.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm10 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>`;
 const githubIconSvg = `<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="size-5 shrink-0"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>`;
 
-// Header CTA button: "Get Grok" -> "Download APK"
+// Header CTA buttons: Direct Download APK
+const desktopHeaderDownloadRegex = /<div class="relative hidden nav:block">[\s\S]*?href=https:\/\/x\.ai\/build><span>Grok Build<\/span><\/a><\/div><\/div><\/div>/;
+const desktopHeaderDownloadBtn = `<div class="relative hidden nav:block">
+  <a href="${mobotApkUrl}" download data-track="header.primary" class="inline-flex items-center justify-center rounded-full bg-primary text-background font-medium h-9 px-5 text-sm hover:opacity-90 transition-opacity">Download APK</a>
+</div>`;
+html = html.replace(desktopHeaderDownloadRegex, desktopHeaderDownloadBtn);
+
+html = html.replace(
+  /<a download data-track=header\.primary aria-hidden=true[^>]*>Download<\/a>/,
+  `<a href="${mobotApkUrl}" download data-track="header.primary" aria-hidden="true" class="relative isolate inline-flex shrink-0 items-center justify-center border-0 text-sm font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50 [&>[data-slot=icon]]:-mx-0.5 [&>[data-slot=icon]]:shrink-0 gap-x-3 px-[18px] py-2.5 sm:text-sm [&>[data-slot=icon]]:size-5 [&>[data-slot=icon]]:sm:size-4 bg-[--btn-bg] text-[--btn-text] hover:brightness-90 rounded-full [--btn-bg:theme(colors.primary)] [--btn-hover:theme(colors.nimbus)] [--btn-text:theme(colors.background)] nav:hidden pointer-events-none opacity-0 transition-opacity duration-200" data-fill="solid" tabindex="-1">Download APK</a>`
+);
+
 html = html.replace(/<span class="truncate">Get Grok<\/span>/g, '<span class="truncate">Download APK</span>');
 html = html.replace(/href=https:\/\/grok\.com\/\?product=grok-bot/g, `href="${mobotApkUrl}" download`);
 
@@ -351,25 +362,33 @@ html = html.replace(
 );
 html = html.replace(/https:\/\/cursor\.com\/download/g, mobotApkUrl);
 
-// Replace Linux penguin SVG in download section trigger with Android robot SVG
+// Replace Linux penguin SVG & accordion button in download section with direct APK download link
 const androidIconLargeSvg = `<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="size-6 shrink-0"><path d="M17.6 9.48l1.84-3.18c.16-.31.04-.69-.26-.85-.29-.15-.65-.05-.83.22l-1.88 3.24c-1.34-.59-2.85-.92-4.47-.92s-3.13.33-4.47.92L5.65 5.67c-.19-.29-.55-.38-.84-.22-.31.16-.42.54-.26.85l1.84 3.18C3.8 11.23 2 14.18 2 17.52h20c0-3.34-1.8-6.29-4.4-8.04zM7 14.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm10 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>`;
+
+const directDownloadCard = `<a href="${mobotApkUrl}" download data-track="bot.downloads.apk-primary" class="bg-theme-bg-subtle hover:bg-theme-card-03-hex group flex w-full cursor-pointer items-center gap-4 rounded-2xl px-5 py-4 text-left font-sans transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 focus-visible:ring-offset-2 focus-visible:ring-offset-background">
+  <span class="text-primary flex size-12 shrink-0 items-center justify-center">
+    ${androidIconLargeSvg}
+  </span>
+  <span class="flex min-w-0 flex-col">
+    <span class="text-sm font-medium">Download Android APK (ARM64)</span>
+    <span class="text-theme-text-muted text-xs">.apk · Android 10+ · Direct APK Download</span>
+  </span>
+  <span class="text-theme-text-muted group-hover:text-theme-text mr-3 ml-auto shrink-0 transition-colors">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+  </span>
+</a>`;
+
 html = html.replace(
-  /<svg viewBox="0 0 448 512" aria-hidden=true class=size-5>[\s\S]*?<\/svg>/,
-  androidIconLargeSvg
+  /<button type=button aria-expanded=false aria-controls=_r_0_ data-linux-picker-trigger=true[\s\S]*?<\/button>/,
+  directDownloadCard
 );
 
-// Linux package dropdown -> Android package dropdown
-html = html.replace(
-  /<span class="text-sm font-medium">Linux<\/span><span class="text-theme-text-muted text-xs">\.deb, AppImage or \.rpm · x64 and arm64<\/span>/g,
-  '<span class="text-sm font-medium">Android (ARM64 & x86_64)</span><span class="text-theme-text-muted text-xs">.apk · Android 10+ · Zero root required</span>'
-);
 html = html.replace(
   /<span>More downloads<\/span><span class="text-theme-text-muted text-xs font-normal">Other platforms and devices<\/span>/g,
   '<span>Alternative Installs</span><span class="text-theme-text-muted text-xs font-normal">ADB CLI, Termux & source build</span>'
 );
 
-const linuxDropdownTrigger = 'data-linux-picker-trigger=true';
-const androidDropdownMarkup = `<div id="_r_0_" role="region" aria-label="Android package options" class="linux-picker-panel hidden mt-2 rounded-2xl border border-white/10 bg-black/90 p-4 backdrop-blur-xl shadow-2xl">
+const androidDropdownMarkup = `<div id="_r_0_" role="region" aria-label="Alternative install options" class="linux-picker-panel hidden mt-2 rounded-2xl border border-white/10 bg-black/90 p-4 backdrop-blur-xl shadow-2xl">
   <div class="flex flex-col gap-2">
     <a href="${mobotApkUrl}" download class="flex items-center justify-between rounded-xl p-3 text-sm text-white/90 hover:bg-white/10 transition-colors">
       <span class="font-medium">.apk (Android 10+ ARM64)</span>
@@ -386,13 +405,10 @@ const androidDropdownMarkup = `<div id="_r_0_" role="region" aria-label="Android
   </div>
 </div>`;
 
-if (html.includes(linuxDropdownTrigger) && !html.includes('id="_r_0_"')) {
-  const triggerIdx = html.indexOf(linuxDropdownTrigger);
-  const closingDivIdx = html.indexOf('</div>', triggerIdx);
-  if (closingDivIdx !== -1) {
-    html = html.slice(0, closingDivIdx + 6) + androidDropdownMarkup + html.slice(closingDivIdx + 6);
-  }
-}
+html = html.replace(
+  /(<button type=button aria-haspopup=dialog data-track=bot\.downloads\.more[\s\S]*?<\/button>)/,
+  `$1\n${androidDropdownMarkup}`
+);
 
 // ========================================================
 // 11. GUIDES SECTION
@@ -553,6 +569,15 @@ const mobotFooterBrand = `<div class="flex items-center gap-2.5">
 </div>
 <span class="text-primary mt-4 block text-[10px] leading-none">© 2026 MOBOT · MIT Open Source License</span>`;
 html = html.replace(oldFooterBrandRegex, mobotFooterBrand);
+
+// Footer download links: Android -> Download APK, iOS -> Releases
+html = html.replace(/href="?https:\/\/play\.google\.com\/store\/apps\/details\?id=[^"'\s>]+"?/g, `href="${mobotApkUrl}" download`);
+html = html.replace(/>Android<\/a>/g, '>Download APK</a>');
+html = html.replace(/href="?https:\/\/apps\.apple\.com\/app\/apple-store\/id\d+"?[^>]*>iOS<\/a>/g, `href="https://github.com/abhayShyam004/MOBOT/releases" target="_blank" rel="noopener noreferrer">Releases</a>`);
+
+// Any remaining cursor download links -> APK URL
+html = html.replace(/https:\/\/api2\.cursor\.sh\/updates\/[^\s"'>]+/g, mobotApkUrl);
+html = html.replace(/href=https:\/\/cursor\.com\/download[^\s"'>]*/g, `href="${mobotApkUrl}" download`);
 
 // Generic URL replacements
 html = html.replace(/https:\/\/grok\.com/g, 'https://github.com/abhayShyam004/MOBOT');
