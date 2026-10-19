@@ -1,7 +1,7 @@
 // Theme Management Controller
 
 export function initTheme() {
-  const THEME_KEY = 'xai_bot_theme_preference';
+  const THEME_KEY = 'mobot_theme_preference';
   
   const applyTheme = (isDark: boolean) => {
     if (isDark) {
@@ -16,15 +16,17 @@ export function initTheme() {
     } catch (_) {}
   };
 
-  // Check stored preference or default to dark (original site baseline)
+  // Check stored preference or default to light mode
   try {
     const saved = localStorage.getItem(THEME_KEY);
-    if (saved === 'light') {
-      applyTheme(false);
-    } else {
+    if (saved === 'dark') {
       applyTheme(true);
+    } else {
+      applyTheme(false);
     }
-  } catch (_) {}
+  } catch (_) {
+    applyTheme(false);
+  }
 
   // Attach to theme toggle buttons in header & footer
   const themeBtns = document.querySelectorAll('button[aria-label="Toggle theme"], footer button');

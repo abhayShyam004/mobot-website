@@ -27,7 +27,9 @@ html = html.replace(/<style[^>]*>\s*\.sf-hidden\{display:none!important\}\s*<\/s
 html = html.replace(/<style[^>]*>\s*:host\{--accent-color:[\s\S]*?<\/style>/gi, '');
 html = html.replace(/\bsf-hidden\b/g, '');
 html = html.replace(/class=\s*>/g, '>');
-html = html.replace(/value\s*>/g, '>');
+html = html.replace(/<html lang=en class=dark style=color-scheme:dark>/i, '<html lang=en style="color-scheme:light">');
+html = html.replace(/<html\s+class=dark/i, '<html');
+html = html.replace(/color-scheme:dark/g, 'color-scheme:light');
 html = html.replace('bg-background text-primary font-sans antialiased', 'bg-background text-primary font-sans antialiased overflow-x-clip');
 
 // Remove SingleFile 16x16 video overlay link
@@ -69,18 +71,28 @@ html = html.replace(/AI teammates that finish the work \| Grok Bot/g, 'Autonomou
 // 4. NAVBAR BRANDING & ACCESSIBILITY
 // ========================================================
 const oldLogoRegex = /<a aria-label="Grok Bot Homepage"[\s\S]*?<\/a>/;
-const mobotNavBrand = `<a aria-label="MOBOT Homepage" href="#hero" class="flex items-center gap-2.5 outline-none rounded-lg focus-visible:ring-2 focus-visible:ring-white/20">
-  <img src="/logo.png" alt="MOBOT" width="30" height="30" class="size-[30px] object-contain drop-shadow select-none pointer-events-none" />
-  <span class="font-display text-lg font-bold tracking-tight text-white">MOBOT</span>
+const mobotNavBrand = `<a aria-label="MOBOT Homepage" href="#hero" class="flex items-center gap-2.5 outline-none rounded-lg focus-visible:ring-2 focus-visible:ring-primary/20">
+  <img src="/logo.png" alt="MOBOT" width="30" height="30" class="size-[30px] object-contain select-none pointer-events-none" />
+  <span class="font-display text-lg font-bold tracking-tight text-primary">MOBOT</span>
 </a>`;
 html = html.replace(oldLogoRegex, mobotNavBrand);
 html = html.replace(/<a aria-label="SpaceXSI Homepage"[\s\S]*?<\/a>/g, mobotNavBrand);
 html = html.replace(/aria-label="SpaceXSI Logo - Right click to copy SVG"/g, 'aria-label="MOBOT Logo"');
 html = html.replace(/aria-label=SpaceXSI/g, 'aria-label=MOBOT');
 
+// Common URLs and SVG Icons
+const mobotApkUrl = 'https://github.com/abhayShyam004/MOBOT/releases/download/v1.1.0/MOBOT-1.1.0-arm64-v8a.apk';
+const gmailFeedbackUrl = 'https://mail.google.com/mail/?view=cm&fs=1&to=abhay315204@gmail.com&su=feedback+on+mobot';
+const androidIconSvg = `<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="size-4 shrink-0"><path d="M17.6 9.48l1.84-3.18c.16-.31.04-.69-.26-.85-.29-.15-.65-.05-.83.22l-1.88 3.24c-1.34-.59-2.85-.92-4.47-.92s-3.13.33-4.47.92L5.65 5.67c-.19-.29-.55-.38-.84-.22-.31.16-.42.54-.26.85l1.84 3.18C3.8 11.23 2 14.18 2 17.52h20c0-3.34-1.8-6.29-4.4-8.04zM7 14.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm10 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>`;
+const githubIconSvg = `<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="size-5 shrink-0"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>`;
+
 // Header CTA button: "Get Grok" -> "Download APK"
 html = html.replace(/<span class="truncate">Get Grok<\/span>/g, '<span class="truncate">Download APK</span>');
-html = html.replace(/href=https:\/\/grok\.com\/\?product=grok-bot/g, 'href="#download"');
+html = html.replace(/href=https:\/\/grok\.com\/\?product=grok-bot/g, `href="${mobotApkUrl}" download`);
+
+// Header Contact Sales button -> redirect to Gmail
+const headerContactSalesBtn = `<a data-track="header.contact-sales" class="relative isolate shrink-0 items-center justify-center border-0 text-sm font-medium transition-[color,background-color,border-color,filter] duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50 [&>[data-slot=icon]]:-mx-0.5 [&>[data-slot=icon]]:shrink-0 gap-x-3 px-[18px] py-2.5 sm:text-sm [&>[data-slot=icon]]:size-5 [&>[data-slot=icon]]:sm:size-4 bg-[--btn-bg] text-[--btn-text] hover:bg-[--btn-hover] rounded-full [--btn-bg:color-mix(in_srgb,hsl(var(--primary))_3%,hsl(var(--card)))] [--btn-hover:color-mix(in_srgb,hsl(var(--primary))_7%,hsl(var(--card)))] [--btn-text:theme(colors.primary)] hidden nav:flex" data-fill="soft" href="${gmailFeedbackUrl}" target="_blank" rel="noopener noreferrer"><span class="absolute left-1/2 top-1/2 size-[max(100%,2.75rem)] -translate-x-1/2 -translate-y-1/2 [@media(pointer:fine)]:hidden " aria-hidden="true"></span>Contact Sales</a>`;
+html = html.replace(/<a [^>]*data-track=header\.contact-sales[\s\S]*?<\/a>/, headerContactSalesBtn);
 
 // Accessibility for mobile drawer
 html = html.replace(/(<button[^>]*)(class=["'][^"']*visible nav:hidden[^"']*["'])/g, '$1aria-label="Open menu" $2');
@@ -112,12 +124,12 @@ html = html.replace(
   'Set a goal, hand off a project, and step in when needed. Your Android AI companion works proactively, keeps persistent memory, and orchestrates real device tools.'
 );
 
-// Hero CTA buttons
-html = html.replace(/>Download for Linux<\/a>/g, '>Download Android APK</a>');
-html = html.replace(/Download for Linux \(Ubuntu \/ Debian x64\)/g, 'Download Android APK');
-html = html.replace(/Contact sales/g, 'View on GitHub');
-html = html.replace(/href=https:\/\/cursor\.com\/contact-sales\?product=grok-bot/g, 'href="https://github.com/abhayShyam004/MOBOT" target="_blank" rel="noopener noreferrer"');
-html = html.replace(/href=https:\/\/api2\.cursor\.sh\/updates\/download\/stable\/linux-x64\/grok-bot-[a-f0-9]+/g, 'href="https://github.com/abhayShyam004/MOBOT/releases/latest"');
+// Hero CTA buttons (Android robot icon + APK direct download link & GitHub icon button)
+const heroDownloadBtn = `<a href="${mobotApkUrl}" download class="inline-flex items-center justify-center rounded-full transition-colors bg-theme-accent hover:bg-theme-accent-hover text-theme-accent-contrast h-9 gap-1.5 px-4 text-sm font-normal md:h-11 md:px-6 md:text-base" data-track="bot.hero.download">${androidIconSvg}Download Android APK</a>`;
+html = html.replace(/<a [^>]*data-track=bot\.hero\.download[\s\S]*?<\/a>/, heroDownloadBtn);
+
+const heroGithubBtn = `<a aria-label="View on GitHub" title="View on GitHub" class="inline-flex items-center justify-center rounded-full transition-colors bg-theme-card-03-hex text-theme-text duration-200 ease-out hover:bg-theme-fg-10 h-9 w-9 md:h-11 md:w-11 p-0 shrink-0" data-track="bot.hero.contact-sales" href="https://github.com/abhayShyam004/MOBOT" target="_blank" rel="noopener noreferrer">${githubIconSvg}</a>`;
+html = html.replace(/<a [^>]*data-track=bot\.hero\.contact-sales[\s\S]*?<\/a>/, heroGithubBtn);
 
 // Hero Desktop Demo Window
 html = html.replace(/John Doe/g, 'Abhay Shyam');
@@ -313,9 +325,12 @@ html = html.replace(/Sign in with your plan/g, 'Audit Source on GitHub');
 html = html.replace(/Weekly Grok Bot usage included/g, 'Zero Telemetry & Local SQLite Storage');
 
 // Replace pricing card CTA buttons
+const pricingGithubBtn = `<a aria-label="View on GitHub" title="View on GitHub" class="inline-flex items-center justify-center rounded-full transition-colors bg-theme-card-03-hex text-theme-text duration-200 ease-out hover:bg-theme-fg-10 h-11 w-11 p-0 shrink-0" data-track="bot.pricing.contact-sales" href="https://github.com/abhayShyam004/MOBOT" target="_blank" rel="noopener noreferrer">${githubIconSvg}</a>`;
+html = html.replace(/<a [^>]*data-track=bot\.pricing\.contact-sales[\s\S]*?<\/a>/, pricingGithubBtn);
+
 html = html.replace(
   /<a [^>]*product=grok-bot">Get Premium<\/a>/g,
-  '<a href="#download" class="inline-flex items-center justify-center rounded-full bg-primary text-background font-medium py-2.5 px-5 text-sm hover:opacity-90 transition-opacity">Download APK</a>'
+  `<a href="${mobotApkUrl}" download class="inline-flex items-center justify-center rounded-full bg-primary text-background font-medium py-2.5 px-5 text-sm hover:opacity-90 transition-opacity">Download APK</a>`
 );
 html = html.replace(
   /<a [^>]*product=grok-bot">Get Super<\/a>/g,
@@ -334,7 +349,14 @@ html = html.replace(
   /One team, wherever you are — on your desk and in your pocket\./g,
   'Autonomous on-device agent companion for Android. Run directly on your phone with zero root required.'
 );
-html = html.replace(/https:\/\/cursor\.com\/download/g, 'https://github.com/abhayShyam004/MOBOT/releases/latest');
+html = html.replace(/https:\/\/cursor\.com\/download/g, mobotApkUrl);
+
+// Replace Linux penguin SVG in download section trigger with Android robot SVG
+const androidIconLargeSvg = `<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="size-6 shrink-0"><path d="M17.6 9.48l1.84-3.18c.16-.31.04-.69-.26-.85-.29-.15-.65-.05-.83.22l-1.88 3.24c-1.34-.59-2.85-.92-4.47-.92s-3.13.33-4.47.92L5.65 5.67c-.19-.29-.55-.38-.84-.22-.31.16-.42.54-.26.85l1.84 3.18C3.8 11.23 2 14.18 2 17.52h20c0-3.34-1.8-6.29-4.4-8.04zM7 14.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm10 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>`;
+html = html.replace(
+  /<svg viewBox="0 0 448 512" aria-hidden=true class=size-5>[\s\S]*?<\/svg>/,
+  androidIconLargeSvg
+);
 
 // Linux package dropdown -> Android package dropdown
 html = html.replace(
@@ -349,7 +371,7 @@ html = html.replace(
 const linuxDropdownTrigger = 'data-linux-picker-trigger=true';
 const androidDropdownMarkup = `<div id="_r_0_" role="region" aria-label="Android package options" class="linux-picker-panel hidden mt-2 rounded-2xl border border-white/10 bg-black/90 p-4 backdrop-blur-xl shadow-2xl">
   <div class="flex flex-col gap-2">
-    <a href="https://github.com/abhayShyam004/MOBOT/releases/latest" class="flex items-center justify-between rounded-xl p-3 text-sm text-white/90 hover:bg-white/10 transition-colors">
+    <a href="${mobotApkUrl}" download class="flex items-center justify-between rounded-xl p-3 text-sm text-white/90 hover:bg-white/10 transition-colors">
       <span class="font-medium">.apk (Android 10+ ARM64)</span>
       <span class="text-xs text-white/50">Primary Package</span>
     </a>
@@ -464,6 +486,13 @@ html = html.replace(
 );
 html = html.replace(/Get started for free/g, 'Download Android APK');
 
+// Footer CTA buttons (Direct APK Download + GitHub icon button)
+const footerDownloadBtn = `<a href="${mobotApkUrl}" download class="inline-flex items-center justify-center rounded-full transition-colors bg-theme-accent hover:bg-theme-accent-hover text-theme-accent-contrast h-11 gap-1.5 px-6 text-base font-normal" data-track="bot.footer.download">${androidIconSvg}Download Android APK</a>`;
+html = html.replace(/<a [^>]*data-track=bot\.footer\.download[\s\S]*?<\/a>/, footerDownloadBtn);
+
+const footerGithubBtn = `<a aria-label="View on GitHub" title="View on GitHub" class="inline-flex items-center justify-center rounded-full transition-colors bg-theme-card-03-hex text-theme-text duration-200 ease-out hover:bg-theme-fg-10 h-11 w-11 p-0 shrink-0" data-track="bot.footer.contact-sales" href="https://github.com/abhayShyam004/MOBOT" target="_blank" rel="noopener noreferrer">${githubIconSvg}</a>`;
+html = html.replace(/<a [^>]*data-track=bot\.footer\.contact-sales[\s\S]*?<\/a>/, footerGithubBtn);
+
 // Replace footer semi-circle with enlarged (1.25x), rotated (15deg clockwise) concave kite
 const circlePath = 'd="M1301.32 813.33A488 488 0 0 0 813.33 325.33A488 488 0 0 0 325.33 813.33A488 488 0 0 0 813.33 1301.32A488 488 0 0 0 1301.32 813.33Z"';
 const concaveKitePath = 'd="M 1062.8 194.6 Q 1085.4 187.7 1101.4 204.9 C 1187.3 357.8 1321.5 554.5 1418.9 710.5 Q 1442.2 729.7 1417.7 743.9 C 1297.7 826.9 1146.8 949.5 1005.1 1074.6 C 917.1 1146.1 841.6 1207.4 803.9 1238.1 C 786.6 1192.7 751.9 1101.9 711.4 995.9 C 651.3 816.7 581.9 635.1 519.4 503.2 Q 505.3 478.7 535.1 473.7 C 697.5 387.3 912.0 284.1 1062.8 194.6 Z"';
@@ -503,7 +532,7 @@ html = html.replace(/>Grok Bot</g, '>MOBOT<');
 html = html.replace(/>Grok Build</g, '>Android APK<');
 html = html.replace(/>Grok on X</g, '>GitHub Repo<');
 html = html.replace(/>Grokipedia</g, '>Companion Docs<');
-html = html.replace(/>grok\.com</g, '>github.com/abhayShyam004/MOBOT<');
+html = html.replace(/>grok\.com</g, '>GitHub<');
 html = html.replace(/>@grok</g, '>@mobot<');
 html = html.replace(/>@spacexsi</g, '>@mobot<');
 html = html.replace(/sam@x\.ai/g, 'companion@mobot.local');
@@ -512,11 +541,15 @@ html = html.replace(/ai\.x\.grok/g, 'com.openmausbot.companion');
 html = html.replace(/https:\/\/x\.com\/i\/grok/g, 'https://github.com/abhayShyam004/MOBOT');
 html = html.replace(/@SpaceXSI/g, '@mobot');
 
+// Contact Sales link in Footer redirect to Gmail
+html = html.replace(/href=https:\/\/x\.ai\/contact-sales/gi, `href="${gmailFeedbackUrl}" target="_blank" rel="noopener noreferrer"`);
+html = html.replace(/href=https:\/\/cursor\.com\/contact-sales[^\s"'>]*/gi, `href="${gmailFeedbackUrl}" target="_blank" rel="noopener noreferrer"`);
+
 // Replace footer brand logo and copyright
 const oldFooterBrandRegex = /<svg width=131 height=16 viewBox="0\.1128 0\.543 146\.6922 17\.8613"[\s\S]*?© \d{4} SpaceXAI LLC<\/span>/;
 const mobotFooterBrand = `<div class="flex items-center gap-2.5">
-  <img src="/logo.png" alt="MOBOT" width="24" height="24" class="size-6 object-contain drop-shadow select-none pointer-events-none" />
-  <span class="font-display text-base font-bold tracking-tight text-white">MOBOT</span>
+  <img src="/logo.png" alt="MOBOT" width="24" height="24" class="size-6 object-contain select-none pointer-events-none" />
+  <span class="font-display text-base font-bold tracking-tight text-primary">MOBOT</span>
 </div>
 <span class="text-primary mt-4 block text-[10px] leading-none">© 2026 MOBOT · MIT Open Source License</span>`;
 html = html.replace(oldFooterBrandRegex, mobotFooterBrand);
