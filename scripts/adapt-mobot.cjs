@@ -282,10 +282,9 @@ html = html.replace(/Created routine/g, 'Triggered Android Intent');
 html = html.replace(/Overnight outbound batch/g, 'Google Maps Navigation');
 
 // ========================================================
-// 8. VIDEO SECTION
+// 8. VIDEO SECTION ("The team runs on MOBOT") - REMOVED
 // ========================================================
-html = html.replace(/The SpaceXSI team runs on Grok Bot/g, 'The team runs on MOBOT');
-html = html.replace(/The team runs on Grok Bot/g, 'The team runs on MOBOT');
+html = html.replace(/<section id=video[\s\S]*?<\/section>/g, '');
 
 // ========================================================
 // 9. PRICING & ARCHITECTURE SECTION
