@@ -464,6 +464,11 @@ html = html.replace(
 );
 html = html.replace(/Get started for free/g, 'Download Android APK');
 
+// Replace footer semi-circle with concave kite
+const circlePath = 'd="M1301.32 813.33A488 488 0 0 0 813.33 325.33A488 488 0 0 0 325.33 813.33A488 488 0 0 0 813.33 1301.32A488 488 0 0 0 1301.32 813.33Z"';
+const concaveKitePath = 'd="M 960 334 Q 974 326 988 334 C 1070 404 1285 512 1520 622 Q 1538 630 1528 642 C 1450 716 1340 794 1230 862 C 1120 932 1040 1020 974 1150 C 908 1020 828 932 718 862 C 608 794 498 716 420 642 Q 410 630 428 622 C 663 512 878 404 960 334 Z"';
+html = html.replace(circlePath, concaveKitePath);
+
 // Split mascot eyes in #get-started into #mascot-eye-left and #mascot-eye-right
 const targetEyePathStart = '<path d="M955.74 747.83';
 const eyePathIdx = html.indexOf(targetEyePathStart);
