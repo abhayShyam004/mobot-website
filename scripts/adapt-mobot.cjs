@@ -464,9 +464,9 @@ html = html.replace(
 );
 html = html.replace(/Get started for free/g, 'Download Android APK');
 
-// Replace footer semi-circle with concave kite
+// Replace footer semi-circle with enlarged (1.25x), rotated (15deg clockwise) concave kite
 const circlePath = 'd="M1301.32 813.33A488 488 0 0 0 813.33 325.33A488 488 0 0 0 325.33 813.33A488 488 0 0 0 813.33 1301.32A488 488 0 0 0 1301.32 813.33Z"';
-const concaveKitePath = 'd="M 960 334 Q 974 326 988 334 C 1070 404 1285 512 1520 622 Q 1538 630 1528 642 C 1450 716 1340 794 1230 862 C 1120 932 1040 1020 974 1150 C 908 1020 828 932 718 862 C 608 794 498 716 420 642 Q 410 630 428 622 C 663 512 878 404 960 334 Z"';
+const concaveKitePath = 'd="M 1062.8 194.6 Q 1085.4 187.7 1101.4 204.9 C 1187.3 357.8 1321.5 554.5 1418.9 710.5 Q 1442.2 729.7 1417.7 743.9 C 1297.7 826.9 1146.8 949.5 1005.1 1074.6 C 917.1 1146.1 841.6 1207.4 803.9 1238.1 C 786.6 1192.7 751.9 1101.9 711.4 995.9 C 651.3 816.7 581.9 635.1 519.4 503.2 Q 505.3 478.7 535.1 473.7 C 697.5 387.3 912.0 284.1 1062.8 194.6 Z"';
 html = html.replace(circlePath, concaveKitePath);
 
 // Split mascot eyes in #get-started into #mascot-eye-left and #mascot-eye-right
