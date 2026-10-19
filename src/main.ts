@@ -1,4 +1,5 @@
-// Main Production Orchestrator for Grok Bot Website
+// Main Production Orchestrator for MOBOT Website
+import './index.css';
 
 import { initHeroDemo } from './controllers/heroDemo';
 import { initUseCases } from './controllers/useCases';

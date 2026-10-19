@@ -87,15 +87,16 @@ const androidIconSvg = `<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden
 const githubIconSvg = `<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="size-5 shrink-0"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>`;
 
 // Header CTA buttons: Direct Download APK
-const desktopHeaderDownloadRegex = /<div class="relative hidden nav:block">[\s\S]*?href=https:\/\/x\.ai\/build><span>Grok Build<\/span><\/a><\/div><\/div><\/div>/;
+const desktopHeaderDownloadRegex = /<div class="relative hidden nav:block">[\s\S]*?href=https:\/\/x\.ai\/build><span>Grok Build<\/span><\/a><\/div><\/div><\/div><\/div><\/div>/;
 const desktopHeaderDownloadBtn = `<div class="relative hidden nav:block">
   <a href="${mobotApkUrl}" download data-track="header.primary" class="inline-flex items-center justify-center rounded-full bg-primary text-background font-medium h-9 px-5 text-sm hover:opacity-90 transition-opacity">Download APK</a>
 </div>`;
 html = html.replace(desktopHeaderDownloadRegex, desktopHeaderDownloadBtn);
 
+// Clean up old mobile hidden download link
 html = html.replace(
   /<a download data-track=header\.primary aria-hidden=true[^>]*>Download<\/a>/,
-  `<a href="${mobotApkUrl}" download data-track="header.primary" aria-hidden="true" class="relative isolate inline-flex shrink-0 items-center justify-center border-0 text-sm font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50 [&>[data-slot=icon]]:-mx-0.5 [&>[data-slot=icon]]:shrink-0 gap-x-3 px-[18px] py-2.5 sm:text-sm [&>[data-slot=icon]]:size-5 [&>[data-slot=icon]]:sm:size-4 bg-[--btn-bg] text-[--btn-text] hover:brightness-90 rounded-full [--btn-bg:theme(colors.primary)] [--btn-hover:theme(colors.nimbus)] [--btn-text:theme(colors.background)] nav:hidden pointer-events-none opacity-0 transition-opacity duration-200" data-fill="solid" tabindex="-1">Download APK</a>`
+  ''
 );
 
 html = html.replace(/<span class="truncate">Get Grok<\/span>/g, '<span class="truncate">Download APK</span>');
@@ -105,18 +106,34 @@ html = html.replace(/href=https:\/\/grok\.com\/\?product=grok-bot/g, `href="${mo
 const headerContactSalesBtn = `<a data-track="header.contact-sales" class="relative isolate shrink-0 items-center justify-center border-0 text-sm font-medium transition-[color,background-color,border-color,filter] duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50 [&>[data-slot=icon]]:-mx-0.5 [&>[data-slot=icon]]:shrink-0 gap-x-3 px-[18px] py-2.5 sm:text-sm [&>[data-slot=icon]]:size-5 [&>[data-slot=icon]]:sm:size-4 bg-[--btn-bg] text-[--btn-text] hover:bg-[--btn-hover] rounded-full [--btn-bg:color-mix(in_srgb,hsl(var(--primary))_3%,hsl(var(--card)))] [--btn-hover:color-mix(in_srgb,hsl(var(--primary))_7%,hsl(var(--card)))] [--btn-text:theme(colors.primary)] hidden nav:flex" data-fill="soft" href="${gmailFeedbackUrl}" target="_blank" rel="noopener noreferrer"><span class="absolute left-1/2 top-1/2 size-[max(100%,2.75rem)] -translate-x-1/2 -translate-y-1/2 [@media(pointer:fine)]:hidden " aria-hidden="true"></span>Contact Sales</a>`;
 html = html.replace(/<a [^>]*data-track=header\.contact-sales[\s\S]*?<\/a>/, headerContactSalesBtn);
 
-// Accessibility for mobile drawer
-html = html.replace(/(<button[^>]*)(class=["'][^"']*visible nav:hidden[^"']*["'])/g, '$1aria-label="Open menu" $2');
-if (!html.includes('aria-label="Open menu"')) {
-  html = html.replace(/<button type=button([^>]*><svg[^>]*><g id="name=drawer")/g, '<button type=button aria-label="Open menu"$1');
-}
+// Style and ensure accessibility for mobile hamburger button
+const mobileHamburgerBtn = `<button type="button" aria-label="Open menu" aria-expanded="false" data-drawer-trigger="true" class="size-10 rounded-full flex items-center justify-center text-primary bg-primary/5 hover:bg-primary/10 active:scale-95 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 nav:hidden">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-5 shrink-0">
+    <line x1="4" y1="6" x2="20" y2="6"></line>
+    <line x1="4" y1="12" x2="20" y2="12"></line>
+    <line x1="4" y1="18" x2="20" y2="18"></line>
+  </svg>
+</button>`;
+html = html.replace(/<button type=button[\s\S]*?visible nav:hidden[\s\S]*?<g id="?name=drawer"?[\s\S]*?<\/svg><\/button>/, mobileHamburgerBtn);
 
 // ========================================================
 // 5. HERO SECTION
 // ========================================================
 html = html.replace(/Introducing Grok Bot/g, 'MOBOT 1.0 is here');
+html = html.replace(/Grok Bot is here/g, 'MOBOT 1.0 is here');
 html = html.replace(/A new way to get work done/g, 'Autonomous AI Companions for Android');
-html = html.replace(/href=https:\/\/x\.ai\/blog\/grok-bot/g, 'href="https://github.com/abhayShyam004/MOBOT"');
+
+// Hero launch post badge -> link directly to GitHub README
+html = html.replace(/href=https:\/\/x\.ai\/news\/introducing-grok-bot/g, 'href="https://github.com/abhayShyam004/MOBOT#readme"');
+html = html.replace(/href=https:\/\/x\.ai\/blog\/grok-bot/g, 'href="https://github.com/abhayShyam004/MOBOT#readme"');
+html = html.replace(
+  'dark:bg-card/60 hover:border-primary/15 dark:hover:bg-card transition-colors mb-4 sm:mb-5',
+  'bg-primary/5 hover:bg-primary/10 border border-border text-primary shadow-sm transition-all mb-4 sm:mb-5'
+);
+html = html.replace(
+  /<span class="hidden sm:inline"><span class=text-primary\/30> • <\/span><span class="text-primary group-hover\/launch:text-primary\/80 transition-colors">Read the launch post<\/span><\/span>/,
+  '<span class="inline"><span class="text-primary/40"> • </span><span class="text-primary group-hover/launch:text-primary/80 transition-colors">Read launch post</span></span>'
+);
 
 // Hero title & subtitle
 html = html.replace(/<span style=display:inline-block;position:relative;opacity:1;transform:none>Bot<\/span><\/h1>/g, '</h1>');
@@ -187,12 +204,17 @@ html = html.replace(
   'Hey Abhay, good to meet you. What do you want me around for? Anything concrete, or more of a general sidekick?'
 );
 html = html.replace(
-  /Overnight pipeline generation and outbound\.\s+Pick eligible prospects from this Google Sheet, research them on the web, grab context from Salesforce, and draft personalized outreach\./g,
+  /Overnight pipeline generation and outbound\.[\s\S]*?sequences in my voice\./g,
   'take me yo the nearest metro station'
 );
 html = html.replace(
   /Can you follow up with all customers who showed interest in our enterprise tier\?/g,
   'take me yo the nearest metro station'
+);
+html = html.replace(/Renamed to Sales Outbound/g, 'Intent: com.google.android.apps.maps');
+html = html.replace(
+  /Checking what's connected\. Hex, Gmail, and LinkedIn are already signed in\. Salesforce isn't\./g,
+  'I opened your maps app with a search for the nearest metro station. Depending on your location permissions, it may ask you to enable location first.'
 );
 html = html.replace(
   /Running the pipeline generation routine now\. Scanning 48 contacts, matched 12 high-intent leads across target accounts\./g,
@@ -202,6 +224,11 @@ html = html.replace(
   /I've drafted 12 personalized follow-up emails for the enterprise prospects\. Would you like me to send them now\?/g,
   'I opened your maps app with a search for the nearest metro station. Depending on your location permissions, it may ask you to enable location first.'
 );
+html = html.replace(
+  /<span class="block truncate text-\[13px\] leading-\[18px\] tracking-\[-0\.08px\]"[^>]*>Sales Outbound<\/span>/g,
+  '<span class="block truncate text-[13px] leading-[18px] tracking-[-0.08px]" style=color:var(--cursor-text-primary);opacity:1;transform:none>Yuki</span>'
+);
+html = html.replace(/aria-label="Open Sales Outbound's computer"/g, 'aria-label="Open Yuki\'s companion"');
 html = html.replace(/• Gmail Connector/g, '• Android Intent: Google Maps');
 
 // Make composer interactive
@@ -421,12 +448,131 @@ html = html.replace(
 html = html.replace(/https:\/\/cursor\.com\/bot\/guides/g, 'https://github.com/abhayShyam004/MOBOT#readme');
 
 // ========================================================
+// 11.5 COMMUNITY & CONTRIBUTION SECTION
+// ========================================================
+const communitySection = `<section id="community" class="relative overflow-hidden">
+  <div class="mx-auto w-full max-w-[var(--site-content-width)] px-4 py-10 sm:py-16 md:py-24 sm:px-6">
+    <div class="mx-auto flex max-w-3xl flex-col items-center gap-4 text-center mb-10 sm:mb-14">
+      <div class="inline-flex items-center gap-2 rounded-full border border-border bg-primary/5 px-3 py-1 text-xs font-semibold tracking-wide text-primary shadow-sm">
+        Open Source & Community
+      </div>
+      <h2 class="font-display text-3xl font-bold tracking-tight text-primary sm:text-4xl md:text-5xl">
+        Help Us Build MOBOT
+      </h2>
+      <p class="max-w-xl text-base sm:text-lg text-secondary leading-relaxed">
+        MOBOT is an open-source, community-built autonomous companion for Android. Whether you want to add new intent skills, audit privacy, or report edge-case bugs, your contributions shape the future of on-device AI.
+      </p>
+    </div>
+
+    <div class="grid w-full gap-6 md:grid-cols-2 max-w-5xl mx-auto">
+      <!-- Card 1: GitHub Open Source -->
+      <article class="bg-card border border-border flex flex-col justify-between rounded-3xl p-6 sm:p-8 shadow-sm">
+        <div>
+          <div class="size-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary mb-6">
+            ${githubIconSvg}
+          </div>
+          <h3 class="font-display text-xl font-bold tracking-tight text-primary mb-2">
+            Contribute on GitHub
+          </h3>
+          <p class="text-secondary text-sm leading-relaxed mb-6">
+            Review the codebase, propose features, submit pull requests, or discuss architecture roadmaps with developers.
+          </p>
+          <ul class="flex flex-col gap-3 text-sm text-secondary mb-8 border-t border-border pt-6">
+            <li class="flex items-center gap-2.5">
+              <span class="text-emerald-500 font-bold shrink-0">✓</span>
+              <span>100% Free & Open Source under MIT License</span>
+            </li>
+            <li class="flex items-center gap-2.5">
+              <span class="text-emerald-500 font-bold shrink-0">✓</span>
+              <span>Modular Kotlin Android & Intent dispatchers</span>
+            </li>
+            <li class="flex items-center gap-2.5">
+              <span class="text-emerald-500 font-bold shrink-0">✓</span>
+              <span>Open roadmap & active GitHub Discussions</span>
+            </li>
+          </ul>
+        </div>
+        <div>
+          <a href="https://github.com/abhayShyam004/MOBOT" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2 rounded-full bg-primary text-background font-semibold py-3 px-6 text-sm hover:opacity-90 active:scale-95 transition-all w-full shadow-sm">
+            ${githubIconSvg}
+            <span>Star & Fork on GitHub</span>
+          </a>
+        </div>
+      </article>
+
+      <!-- Card 2: Bug Reports & Feedback -->
+      <article class="bg-card border border-border flex flex-col justify-between rounded-3xl p-6 sm:p-8 shadow-sm">
+        <div>
+          <div class="size-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary mb-6">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-6 text-primary">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22,6 12,13 2,6"/>
+            </svg>
+          </div>
+          <h3 class="font-display text-xl font-bold tracking-tight text-primary mb-2">
+            Direct Bug Reports & Feedback
+          </h3>
+          <p class="text-secondary text-sm leading-relaxed mb-6">
+            Encountered a bug or an intent error? Email the lead developer directly. Include these 3 items for fastest resolution:
+          </p>
+          <div class="rounded-2xl bg-primary/[0.03] border border-border p-4 mb-8">
+            <ol class="flex flex-col gap-2.5 text-xs sm:text-sm text-secondary">
+              <li class="flex items-start gap-2">
+                <span class="font-semibold text-primary">1.</span>
+                <span>Attach a screenshot or short recording of the screen</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="font-semibold text-primary">2.</span>
+                <span>Copy the exact error message or unexpected behavior</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="font-semibold text-primary">3.</span>
+                <span>Briefly describe the user action right before it happened</span>
+              </li>
+            </ol>
+          </div>
+        </div>
+        <div>
+          <a href="mailto:abhay315204@gmail.com?subject=feedback%20on%20mobot" class="inline-flex items-center justify-center gap-2 rounded-full border border-border bg-card hover:bg-primary/5 text-primary font-semibold py-3 px-6 text-sm active:scale-95 transition-all w-full shadow-sm">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-4 shrink-0">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22,6 12,13 2,6"/>
+            </svg>
+            <span>Email abhay315204@gmail.com</span>
+          </a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>`;
+
+html = html.replace(
+  /(<\/section>\s*<section id=["']?faqs["']?>)/i,
+  `\n${communitySection}\n$1`
+);
+
+// Global Section Spacing Optimization for Mobile
+html = html.replace(/py-20 sm:py-28/g, 'py-10 sm:py-16 md:py-24');
+html = html.replace(
+  'p-8 pb-44 sm:gap-5 sm:px-12 sm:py-10 md:pr-[42%] md:pb-10',
+  'p-6 pb-28 sm:gap-5 sm:px-12 sm:py-10 md:pr-[42%] md:pb-10'
+);
+html = html.replace(
+  '<h2 class="font-display text-3xl tracking-tight text-balance sm:text-4xl text-center">Pricing</h2>',
+  '<h2 class="font-display text-3xl tracking-tight text-balance sm:text-4xl text-center text-primary">Pricing</h2>'
+);
+
+// ========================================================
 // 12. FAQ SECTION (ACCORDION & JSON-LD)
 // ========================================================
 const mobotFaqs = [
   {
     q: 'What is MOBOT and how is it different from AI assistants?',
     a: 'MOBOT is an autonomous companion that runs natively on Android. Unlike cloud chatbots that only return text, MOBOT executes actions using direct Android intents (Google Maps, camera, notifications, background routines), keeps persistent memory in local SQLite, and operates completely offline with zero telemetry.'
+  },
+  {
+    q: 'Is MOBOT available for iOS, macOS, Windows, or Linux?',
+    a: 'No. MOBOT is exclusively built for Android (Android 10+ ARM64). MOBOT utilizes native Android platform capabilities including system intents, local SQLite databases, foreground services, and quick setting tiles that are specific to the Android operating system. There are no iOS or desktop applications.'
   },
   {
     q: 'Does MOBOT require root access or custom firmware?',
@@ -479,18 +625,18 @@ html = html.replace(/Grok Bot is included with Premium, Super, Ultra, Teams, and
 html = html.replace(/Is Grok Bot available for enterprises\?/g, mobotFaqs[2].q);
 html = html.replace(/Yes\. Grok Bot is generally available for Enterprise[\s\S]*?don’t already have a seat\./g, mobotFaqs[2].a);
 
-html = html.replace(/Where do I talk to Grok Bot\?/g, mobotFaqs[3].q);
-html = html.replace(/Work with Grok Bot from your desktop \(macOS or Windows\) or your phone with the iOS app\./g, mobotFaqs[3].a);
+html = html.replace(/Where do I talk to Grok Bot\?/g, mobotFaqs[4].q);
+html = html.replace(/Work with Grok Bot from your desktop \(macOS or Windows\) or your phone with the iOS app\./g, mobotFaqs[4].a);
 
-html = html.replace(/How much does Grok Bot cost\?/g, mobotFaqs[4].q);
-html = html.replace(/Grok Bot subscriptions come with weekly usage included[\s\S]*?contact sales<\/a>\./g, mobotFaqs[4].a);
+html = html.replace(/How much does Grok Bot cost\?/g, mobotFaqs[5].q);
+html = html.replace(/Grok Bot subscriptions come with weekly usage included[\s\S]*?contact sales<\/a>\./g, mobotFaqs[5].a);
 
-html = html.replace(/Do Bots share one computer\?/g, mobotFaqs[5].q);
-html = html.replace(/Yes\. Every Grok Bot shares one persistent cloud computer[\s\S]*?not per Grok Bot\./g, mobotFaqs[5].a);
+html = html.replace(/Do Bots share one computer\?/g, mobotFaqs[6].q);
+html = html.replace(/Yes\. Every Grok Bot shares one persistent cloud computer[\s\S]*?not per Grok Bot\./g, mobotFaqs[6].a);
 
-html = html.replace(/How does Grok Bot handle my data &amp; privacy\?/g, mobotFaqs[6].q);
-html = html.replace(/How does Grok Bot handle my data & privacy\?/g, mobotFaqs[6].q);
-html = html.replace(/Grok Bot uses the same Cursor SSO, auth, and privacy mode you already trust[\s\S]*?network controls at boot\./g, mobotFaqs[6].a);
+html = html.replace(/How does Grok Bot handle my data &amp; privacy\?/g, mobotFaqs[7].q);
+html = html.replace(/How does Grok Bot handle my data & privacy\?/g, mobotFaqs[7].q);
+html = html.replace(/Grok Bot uses the same Cursor SSO, auth, and privacy mode you already trust[\s\S]*?network controls at boot\./g, mobotFaqs[7].a);
 
 // ========================================================
 // 13. FINAL CTA SECTION & MASCOT SPLIT EYES

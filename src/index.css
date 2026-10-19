@@ -26,3 +26,36 @@ html, body {
     scroll-behavior: auto !important;
   }
 }
+
+/* Mobile Responsive Overrides */
+@media (max-width: 639px) {
+  /* Hero Demo - Un-squeeze chat on mobile: hide desktop sidebar and expand chat full-width */
+  .baby-mobot-sidebar-slot {
+    display: none !important;
+  }
+  .baby-mobot-shell {
+    grid-template-columns: 1fr !important;
+  }
+  .baby-mobot-chat {
+    width: 100% !important;
+    min-width: 100% !important;
+  }
+  .group\/desktop {
+    aspect-ratio: auto !important;
+    height: 420px !important;
+  }
+  .baby-mobot-transcript {
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important;
+  }
+
+  /* Statement Card mascot scaling & bottom spacing */
+  .statement-card {
+    --statement-head: 9.5rem !important;
+  }
+
+  /* Hide macOS desktop traffic lights on mobile viewport */
+  .baby-mobot-traffic-lights {
+    display: none !important;
+  }
+}
