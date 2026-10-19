@@ -8,6 +8,7 @@ import { initDownload } from './controllers/download';
 import { initNavigation } from './controllers/navigation';
 import { initTheme } from './controllers/theme';
 import { initMascotEyes } from './controllers/mascotEyes';
+import { initHeroCircle } from './controllers/heroCircle';
 
 function initSmoothScroll() {
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -30,6 +31,7 @@ function bootstrap() {
     { name: 'Navigation', fn: initNavigation },
     { name: 'Theme', fn: initTheme },
     { name: 'HeroDemo', fn: initHeroDemo },
+    { name: 'HeroCircle', fn: initHeroCircle },
     { name: 'UseCases', fn: initUseCases },
     { name: 'Pricing', fn: initPricing },
     { name: 'Faqs', fn: initFaqs },
