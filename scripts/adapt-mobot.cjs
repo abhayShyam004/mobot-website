@@ -33,6 +33,10 @@ html = html.replace('bg-background text-primary font-sans antialiased', 'bg-back
 // Remove SingleFile 16x16 video overlay link
 html = html.replace(/<a href=https:\/\/media\.x\.ai\/[^>]*style="z-index:2147483647!important;[\s\S]*?<\/a>/gi, '');
 
+// Remove Video Section ("The SpaceXSI team runs on Grok Bot" / "The team runs on MOBOT" & preview picture)
+html = html.replace(/<section\s+id=["']?video["']?[\s\S]*?<\/section>/gi, '');
+html = html.replace(/<section[^>]*>[\s\S]*?(?:The SpaceXSI team runs on Grok Bot|The team runs on MOBOT)[\s\S]*?<\/section>/gi, '');
+
 // ========================================================
 // 1.5 FAVICON & TOUCH ICONS (MOBOT)
 // ========================================================
@@ -282,9 +286,10 @@ html = html.replace(/Created routine/g, 'Triggered Android Intent');
 html = html.replace(/Overnight outbound batch/g, 'Google Maps Navigation');
 
 // ========================================================
-// 8. VIDEO SECTION ("The team runs on MOBOT") - REMOVED
+// 8. VIDEO SECTION (REMOVED: "The team runs on MOBOT" & preview)
 // ========================================================
-html = html.replace(/<section id=video[\s\S]*?<\/section>/g, '');
+html = html.replace(/<section\s+id=["']?video["']?[\s\S]*?<\/section>/gi, '');
+html = html.replace(/<section[^>]*>[\s\S]*?(?:The SpaceXSI team runs on Grok Bot|The team runs on MOBOT)[\s\S]*?<\/section>/gi, '');
 
 // ========================================================
 // 9. PRICING & ARCHITECTURE SECTION
