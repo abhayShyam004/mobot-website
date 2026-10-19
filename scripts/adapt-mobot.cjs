@@ -8,7 +8,12 @@ const candidates = [
 
 let srcPath = candidates.find(p => fs.existsSync(p));
 if (!srcPath) {
-  console.error('Source HTML not found in candidates');
+  const targetHtml = path.resolve(__dirname, '../index.html');
+  if (fs.existsSync(targetHtml)) {
+    console.log('[MOBOT-ADAPT] Authoritative template source not found in local paths, but index.html already exists. Using committed index.html.');
+    process.exit(0);
+  }
+  console.error('Source HTML not found in candidates and index.html not found');
   process.exit(1);
 }
 
