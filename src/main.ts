@@ -28,7 +28,7 @@ function initSmoothScroll() {
 }
 
 function initApkDownloadButtons() {
-  const MOBOT_APK_URL = 'https://github.com/abhayShyam004/MOBOT/releases/download/v1.1.0/MOBOT-1.1.0-arm64-v8a.apk';
+  const MOBOT_APK_URL = 'https://github.com/abhayShyam004/MOBOT/releases/download/v1.1.2/MOBOT-1.1.2-arm64-v8a.apk';
 
   // Ensure all elements intended as download buttons point directly to the APK
   document.querySelectorAll('a').forEach(el => {
