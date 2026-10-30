@@ -3,7 +3,7 @@ const path = require('path');
 
 const candidates = [
   '/tmp/user_xai_bot.html',
-  '/run/media/abhay/Abhay/Downloads/AI teammates that finish the work ｜ Grok Bot (10_17_2026 11：53：09 AM).html'
+  '/run/media/abhay/Abhay/Downloads/AI teammates that finish the work ï½ Grok Bot (10_17_2026 11ï¼53ï¼09 AM).html'
 ];
 
 let srcPath = candidates.find(p => fs.existsSync(p));
@@ -66,7 +66,7 @@ console.log(`[MOBOT-ADAPT] Protected ${placeholders.size} base64 assets.`);
 // ========================================================
 // 3. PAGE TITLE & METADATA
 // ========================================================
-html = html.replace(/<title>.*?<\/title>/i, '<title>MOBOT — Autonomous AI Companions for Android</title>');
+html = html.replace(/<title>.*?<\/title>/i, '<title>MOBOT â Autonomous AI Companions for Android</title>');
 html = html.replace(/content=SpaceXSI/g, 'content=MOBOT');
 html = html.replace(/content=@spacexsi/g, 'content=@mobot_app');
 html = html.replace(/content="@spacexsi"/g, 'content="@mobot_app"');
@@ -86,7 +86,7 @@ html = html.replace(/aria-label="SpaceXSI Logo - Right click to copy SVG"/g, 'ar
 html = html.replace(/aria-label=SpaceXSI/g, 'aria-label=MOBOT');
 
 // Common URLs and SVG Icons
-const mobotApkUrl = 'https://github.com/abhayShyam004/MOBOT/releases/download/v1.1.0/MOBOT-1.1.0-arm64-v8a.apk';
+const mobotApkUrl = 'https://github.com/abhayShyam004/MOBOT/releases/download/v1.1.2/MOBOT-1.1.2-arm64-v8a.apk';
 const gmailFeedbackUrl = 'https://mail.google.com/mail/?view=cm&fs=1&to=abhay315204@gmail.com&su=feedback+on+mobot';
 const androidIconSvg = `<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="size-4 shrink-0"><path d="M17.6 9.48l1.84-3.18c.16-.31.04-.69-.26-.85-.29-.15-.65-.05-.83.22l-1.88 3.24c-1.34-.59-2.85-.92-4.47-.92s-3.13.33-4.47.92L5.65 5.67c-.19-.29-.55-.38-.84-.22-.31.16-.42.54-.26.85l1.84 3.18C3.8 11.23 2 14.18 2 17.52h20c0-3.34-1.8-6.29-4.4-8.04zM7 14.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm10 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>`;
 const githubIconSvg = `<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="size-5 shrink-0"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>`;
@@ -124,8 +124,8 @@ html = html.replace(/<button type=button[\s\S]*?visible nav:hidden[\s\S]*?<g id=
 // ========================================================
 // 5. HERO SECTION
 // ========================================================
-html = html.replace(/Introducing Grok Bot/g, 'MOBOT 1.0 is here');
-html = html.replace(/Grok Bot is here/g, 'MOBOT 1.0 is here');
+html = html.replace(/Introducing Grok Bot/g, 'MOBOT 1.1.2 is here');
+html = html.replace(/Grok Bot is here/g, 'MOBOT 1.1.2 is here');
 html = html.replace(/A new way to get work done/g, 'Autonomous AI Companions for Android');
 
 // Hero launch post badge -> link directly to GitHub README
@@ -136,8 +136,8 @@ html = html.replace(
   'bg-primary/5 hover:bg-primary/10 border border-border text-primary shadow-sm transition-all mb-4 sm:mb-5'
 );
 html = html.replace(
-  /<span class="hidden sm:inline"><span class=text-primary\/30> • <\/span><span class="text-primary group-hover\/launch:text-primary\/80 transition-colors">Read the launch post<\/span><\/span>/,
-  '<span class="inline"><span class="text-primary/40"> • </span><span class="text-primary group-hover/launch:text-primary/80 transition-colors">Read launch post</span></span>'
+  /<span class="hidden sm:inline"><span class=text-primary\/30> â¢ <\/span><span class="text-primary group-hover\/launch:text-primary\/80 transition-colors">Read the launch post<\/span><\/span>/,
+  '<span class="inline"><span class="text-primary/40"> â¢ </span><span class="text-primary group-hover/launch:text-primary/80 transition-colors">Read launch post</span></span>'
 );
 
 // Hero title & subtitle
@@ -234,7 +234,7 @@ html = html.replace(
   '<span class="block truncate text-[13px] leading-[18px] tracking-[-0.08px]" style=color:var(--cursor-text-primary);opacity:1;transform:none>Yuki</span>'
 );
 html = html.replace(/aria-label="Open Sales Outbound's computer"/g, 'aria-label="Open Yuki\'s companion"');
-html = html.replace(/• Gmail Connector/g, '• Android Intent: Google Maps');
+html = html.replace(/â¢ Gmail Connector/g, 'â¢ Android Intent: Google Maps');
 
 // Make composer interactive
 html = html.replace('contenteditable=false data-empty', 'contenteditable=true data-empty tabindex=0');
@@ -272,8 +272,8 @@ html = html.replace(/viewBox="0 0 755\.62 755\.62"><path d="M604\.5 377\.81[\s\S
 // 2x2 Feature Grid Cards
 html = html.replace(/Work with many Bots at once/g, 'Parallel Companion Roster');
 html = html.replace(
-  /Create a Bot, give it a task, and add another when the work grows—one on a project, one on outbound, one on systems\. AI teammates work in parallel, collaborate where it makes sense, and keep working 24\/7\./g,
-  'Deploy a roster of specialist bots on your phone—one on daily companion tasks, one on world watches, one on document extraction. Agents execute in parallel with persistent state.'
+  /Create a Bot, give it a task, and add another when the work growsâone on a project, one on outbound, one on systems\. AI teammates work in parallel, collaborate where it makes sense, and keep working 24\/7\./g,
+  'Deploy a roster of specialist bots on your phoneâone on daily companion tasks, one on world watches, one on document extraction. Agents execute in parallel with persistent state.'
 );
 
 html = html.replace(/Bots work where you work/g, 'Direct Android System Hands');
@@ -289,7 +289,7 @@ html = html.replace(
 
 html = html.replace(/Teach Bots new skills/g, 'Proactive Background Routines');
 html = html.replace(/Grok Bot's own computer/g, 'Proactive Background Routines');
-html = html.replace(/Show a Bot how it[’']s done/g, 'Proactive Background Routines');
+html = html.replace(/Show a Bot how it[â']s done/g, 'Proactive Background Routines');
 html = html.replace(
   /Ask a Bot to follow along as you complete a workflow once\. It saves it as a routine and runs it on its own next time\./g,
   'Schedule recurring morning digests, periodic API checks, and background monitors that run reliably around the clock.'
@@ -357,7 +357,7 @@ html = html.replace(/https:\/\/grok\.com\/\?product=grok-bot/g, 'https://github.
 html = html.replace(/>\$30</g, '>$0<');
 html = html.replace(/>\$100</g, '>Free<');
 html = html.replace(/>\$200</g, '>Local<');
-html = html.replace(/>\/ month</g, '>forever · MIT<');
+html = html.replace(/>\/ month</g, '>forever Â· MIT<');
 html = html.replace(/billed annually or \$\d+ billed monthly/g, '100% Free & Open Source on GitHub');
 html = html.replace(
   /Already on an eligible Premium, Super, Ultra, Teams, or Enterprise plan\? Grok Bot is included\./g,
@@ -389,7 +389,7 @@ html = html.replace(
 // ========================================================
 html = html.replace(/Download Grok Bot/g, 'Download MOBOT');
 html = html.replace(
-  /One team, wherever you are — on your desk and in your pocket\./g,
+  /One team, wherever you are â on your desk and in your pocket\./g,
   'Autonomous on-device agent companion for Android. Run directly on your phone with zero root required.'
 );
 html = html.replace(/https:\/\/cursor\.com\/download/g, mobotApkUrl);
@@ -403,7 +403,7 @@ const directDownloadCard = `<a href="${mobotApkUrl}" download data-track="bot.do
   </span>
   <span class="flex min-w-0 flex-col">
     <span class="text-sm font-medium">Download Android APK (ARM64)</span>
-    <span class="text-theme-text-muted text-xs">.apk · Android 10+ · Direct APK Download</span>
+    <span class="text-theme-text-muted text-xs">.apk Â· Android 10+ Â· Direct APK Download</span>
   </span>
   <span class="text-theme-text-muted group-hover:text-theme-text mr-3 ml-auto shrink-0 transition-colors">
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
@@ -484,15 +484,15 @@ const communitySection = `<section id="community" class="relative overflow-hidde
           </p>
           <ul class="flex flex-col gap-3 text-sm text-secondary mb-8 border-t border-border pt-6">
             <li class="flex items-center gap-2.5">
-              <span class="text-emerald-500 font-bold shrink-0">✓</span>
+              <span class="text-emerald-500 font-bold shrink-0">â</span>
               <span>100% Free & Open Source under MIT License</span>
             </li>
             <li class="flex items-center gap-2.5">
-              <span class="text-emerald-500 font-bold shrink-0">✓</span>
+              <span class="text-emerald-500 font-bold shrink-0">â</span>
               <span>Modular Kotlin Android & Intent dispatchers</span>
             </li>
             <li class="flex items-center gap-2.5">
-              <span class="text-emerald-500 font-bold shrink-0">✓</span>
+              <span class="text-emerald-500 font-bold shrink-0">â</span>
               <span>Open roadmap & active GitHub Discussions</span>
             </li>
           </ul>
@@ -628,7 +628,7 @@ html = html.replace(/Who is Grok Bot available for today\?/g, mobotFaqs[1].q);
 html = html.replace(/Grok Bot is included with Premium, Super, Ultra, Teams, and Enterprise\./g, mobotFaqs[1].a);
 
 html = html.replace(/Is Grok Bot available for enterprises\?/g, mobotFaqs[2].q);
-html = html.replace(/Yes\. Grok Bot is generally available for Enterprise[\s\S]*?don’t already have a seat\./g, mobotFaqs[2].a);
+html = html.replace(/Yes\. Grok Bot is generally available for Enterprise[\s\S]*?donât already have a seat\./g, mobotFaqs[2].a);
 
 html = html.replace(/Where do I talk to Grok Bot\?/g, mobotFaqs[4].q);
 html = html.replace(/Work with Grok Bot from your desktop \(macOS or Windows\) or your phone with the iOS app\./g, mobotFaqs[4].a);
@@ -692,9 +692,9 @@ if (eyePathIdx !== -1 && !html.includes('id="mascot-eye-left"')) {
 // ========================================================
 // 14. FOOTER SECTION & LINKS
 // ========================================================
-html = html.replace(/© \d{4} SpaceX SI LLC/g, '© 2026 MOBOT · MIT Open Source');
+html = html.replace(/Â© \d{4} SpaceX SI LLC/g, 'Â© 2026 MOBOT Â· MIT Open Source');
 html = html.replace(/Built with Grok/g, 'Open Source on GitHub');
-html = html.replace(/Grok Bot is here/g, 'MOBOT 1.0 is here');
+html = html.replace(/Grok Bot is here/g, 'MOBOT 1.1.2 is here');
 html = html.replace(/>Grok Bot</g, '>MOBOT<');
 html = html.replace(/>Grok Build</g, '>Android APK<');
 html = html.replace(/>Grok on X</g, '>GitHub Repo<');
@@ -713,12 +713,12 @@ html = html.replace(/href=https:\/\/x\.ai\/contact-sales/gi, `href="${gmailFeedb
 html = html.replace(/href=https:\/\/cursor\.com\/contact-sales[^\s"'>]*/gi, `href="${gmailFeedbackUrl}" target="_blank" rel="noopener noreferrer"`);
 
 // Replace footer brand logo and copyright
-const oldFooterBrandRegex = /<svg width=131 height=16 viewBox="0\.1128 0\.543 146\.6922 17\.8613"[\s\S]*?© \d{4} SpaceXAI LLC<\/span>/;
+const oldFooterBrandRegex = /<svg width=131 height=16 viewBox="0\.1128 0\.543 146\.6922 17\.8613"[\s\S]*?Â© \d{4} SpaceXAI LLC<\/span>/;
 const mobotFooterBrand = `<div class="flex items-center gap-2.5">
   <img src="/logo.png" alt="MOBOT" width="24" height="24" class="size-6 object-contain select-none pointer-events-none" />
   <span class="font-display text-base font-bold tracking-tight text-primary">MOBOT</span>
 </div>
-<span class="text-primary mt-4 block text-[10px] leading-none">© 2026 MOBOT · MIT Open Source License</span>`;
+<span class="text-primary mt-4 block text-[10px] leading-none">Â© 2026 MOBOT Â· MIT Open Source License</span>`;
 html = html.replace(oldFooterBrandRegex, mobotFooterBrand);
 
 // Footer download links: Android -> Download APK, iOS -> Releases
