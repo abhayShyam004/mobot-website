@@ -11,8 +11,8 @@ export const AnnouncementBadge: React.FC = () => {
       <span className="flex size-4 items-center justify-center rounded-full bg-[#f19d38] text-white">
         <GrokBotMark size={11} fgColor="#ffffff" bgColor="#f19d38" />
       </span>
-      <span>Grok Bot is here</span>
-      <span className="text-black/40">·</span>
+      <span>MOBOT v1.1.2 is here</span>
+      <span className="text-black/40">→</span>
       <span className="text-black/70 group-hover:text-black flex items-center gap-0.5">
         Read the launch post
         <ArrowUpRight className="size-3 text-black/50 group-hover:text-black transition-colors" />
