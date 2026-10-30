@@ -126,6 +126,7 @@ html = html.replace(/<button type=button[\s\S]*?visible nav:hidden[\s\S]*?<g id=
 // ========================================================
 html = html.replace(/Introducing Grok Bot/g, 'MOBOT 1.1.2 is here');
 html = html.replace(/Grok Bot is here/g, 'MOBOT 1.1.2 is here');
+html = html.replace(/MOBOT 1.0 is here/g, 'MOBOT 1.1.2 is here');
 html = html.replace(/A new way to get work done/g, 'Autonomous AI Companions for Android');
 
 // Hero launch post badge -> link directly to GitHub README
